@@ -26,7 +26,7 @@ public class Student {
 
     private LocalDate birthDate;
     private LocalDate admissionDate;
-    private Integer mobile;
+    private Integer mobile; /* mobile number eka ain karanne oni */
     private String religion;
 
     @ManyToOne
@@ -42,5 +42,20 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "parent_id")
     )
     private List<Parent> parents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
+    private List<StudentHealth> studentHealths = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
+    private List<StudentPreviousSchool> studentPreviousSchools  = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
+    private List<StudentExtraActivity> studentExtraActivities  = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
+    private List<StudentLeadership> studentLeaderships  = new ArrayList<>();
+
+
+
 
 }
