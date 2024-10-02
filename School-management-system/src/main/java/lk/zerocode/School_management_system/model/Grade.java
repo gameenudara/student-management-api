@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 @Table(name = "class")
 public class Grade {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

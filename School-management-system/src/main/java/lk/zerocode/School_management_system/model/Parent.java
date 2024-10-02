@@ -9,12 +9,14 @@ import java.util.List;
 @Data
 @Table(name = "parent")
 public class Parent {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     private GuardianType guardianType;
+
     private String name;
     private String address;
     private String nic;
