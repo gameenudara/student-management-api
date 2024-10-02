@@ -15,7 +15,7 @@ CREATE TABLE `teacher` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-CREATE TABLE `class` (
+CREATE TABLE `grade` (
                          `id` bigint NOT NULL AUTO_INCREMENT,
                          `teacher_id` bigint DEFAULT NULL,
                          `fee` double DEFAULT NULL,
@@ -43,7 +43,6 @@ CREATE TABLE `parent` (
 
 CREATE TABLE `student` (
                            `id` bigint NOT NULL AUTO_INCREMENT,
-                           `grade_id` bigint DEFAULT NULL,
                            `address` varchar(255) DEFAULT NULL,
                            `admission_date` date DEFAULT NULL,
                            `birth_date` date DEFAULT NULL,
@@ -53,9 +52,10 @@ CREATE TABLE `student` (
                            `name` varchar(255) DEFAULT NULL,
                            `reg_number` varchar(255) DEFAULT NULL,
                            `religion` varchar(255) DEFAULT NULL,
+                           `grade_id` bigint DEFAULT NULL,
                            PRIMARY KEY (`id`),
-                           KEY `FKsah4wuaglr3u0vkmy6s7jhk3l` (`grade_id`),
-                           CONSTRAINT `FKsah4wuaglr3u0vkmy6s7jhk3l` FOREIGN KEY (`grade_id`) REFERENCES `class` (`id`)
+                           KEY `FK4xvaqcll34afqdd9vkydid5qo` (`grade_id`),
+                           CONSTRAINT `FK4xvaqcll34afqdd9vkydid5qo` FOREIGN KEY (`grade_id`) REFERENCES `grade` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -76,3 +76,43 @@ CREATE TABLE `student_parent` (
                                   CONSTRAINT `FK1uqsk99lie7damnsh9osouodd` FOREIGN KEY (`parent_id`) REFERENCES `parent` (`id`),
                                   CONSTRAINT `FK3nulmrwg4cubngtp7nq5lud86` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `student_extra_activity` (
+                                          `id` bigint NOT NULL AUTO_INCREMENT,
+                                          `extra_activity` longtext,
+                                          `student_id` bigint DEFAULT NULL,
+                                          PRIMARY KEY (`id`),
+                                          KEY `FKsxtjmawuvnkaljx7vi4ci9qyj` (`student_id`),
+                                          CONSTRAINT `FKsxtjmawuvnkaljx7vi4ci9qyj` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `student_health` (
+                                  `id` bigint NOT NULL AUTO_INCREMENT,
+                                  `health_status` longtext,
+                                  `student_id` bigint DEFAULT NULL,
+                                  PRIMARY KEY (`id`),
+                                  KEY `FKeh0hse0e8rssw7ybn84gilpcu` (`student_id`),
+                                  CONSTRAINT `FKeh0hse0e8rssw7ybn84gilpcu` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `student_leadership` (
+                                      `id` bigint NOT NULL AUTO_INCREMENT,
+                                      `leadership` longtext,
+                                      `student_id` bigint DEFAULT NULL,
+                                      PRIMARY KEY (`id`),
+                                      KEY `FK8yocpqu2w41atqtqqygi169f3` (`student_id`),
+                                      CONSTRAINT `FK8yocpqu2w41atqtqqygi169f3` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `student_previous_school` (
+                                           `id` bigint NOT NULL AUTO_INCREMENT,
+                                           `school_name` longtext,
+                                           `student_id` bigint DEFAULT NULL,
+                                           PRIMARY KEY (`id`),
+                                           KEY `FKiqeemdj1nqjlu20865jesmny8` (`student_id`),
+                                           CONSTRAINT `FKiqeemdj1nqjlu20865jesmny8` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
