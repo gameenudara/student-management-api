@@ -7,9 +7,11 @@ import lombok.Data;
 @Data
 @Table(name = "attendance")
 public class Attendance {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @ManyToOne
     private Student student;
