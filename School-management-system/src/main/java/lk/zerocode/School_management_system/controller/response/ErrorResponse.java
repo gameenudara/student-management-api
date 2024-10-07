@@ -3,5 +3,7 @@ package lk.zerocode.School_management_system.controller.response;
 import lombok.Data;
 
 @Data
-public class TeacherControllerResponse {
+public class ErrorResponse {
+
+    private String message;
 }
