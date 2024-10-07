@@ -16,7 +16,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String imageUrl;
+    private String profileImageUrl;
     private String name;
     private String regNumber;
     private String address;
