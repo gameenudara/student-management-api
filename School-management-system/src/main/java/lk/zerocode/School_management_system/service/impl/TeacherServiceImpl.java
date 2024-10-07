@@ -1,5 +1,6 @@
 package lk.zerocode.School_management_system.service.impl;
 
+import lk.zerocode.School_management_system.controller.response.TeacherControllerResponse;
 import lk.zerocode.School_management_system.dto.TeacherDto;
 import lk.zerocode.School_management_system.model.Teacher;
 import lk.zerocode.School_management_system.repository.TeacherRepository;
@@ -21,8 +22,9 @@ public class TeacherServiceImpl implements TeacherService {
     private ModelMapper modelMapper;
 
     @Override
-    public TeacherDto createTeacher(TeacherDto teacherDto, MultipartFile multipartFile) throws IOException {
+    public TeacherControllerResponse createTeacher(TeacherDto teacherDto, MultipartFile multipartFile) throws IOException {
         Teacher teacher = modelMapper.map(teacherDto, Teacher.class);
+        teacher.setImageUrl(teacher.getImageUrl());
 
         teacherRepository.save(teacher);
         return null;
