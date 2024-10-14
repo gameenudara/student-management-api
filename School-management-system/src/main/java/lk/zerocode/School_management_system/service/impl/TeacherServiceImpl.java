@@ -1,16 +1,15 @@
 package lk.zerocode.School_management_system.service.impl;
 
-import lk.zerocode.School_management_system.controller.response.TeacherControllerResponse;
-import lk.zerocode.School_management_system.dto.TeacherDto;
+import lk.zerocode.School_management_system.controller.request.TeacherControllerRequest;
+import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
 import lk.zerocode.School_management_system.model.Teacher;
 import lk.zerocode.School_management_system.repository.TeacherRepository;
 import lk.zerocode.School_management_system.service.TeacherService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -18,15 +17,50 @@ import java.io.IOException;
 public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
-
     private ModelMapper modelMapper;
 
     @Override
-    public TeacherControllerResponse createTeacher(TeacherDto teacherDto, MultipartFile multipartFile) throws IOException {
-        Teacher teacher = modelMapper.map(teacherDto, Teacher.class);
-        teacher.setImageUrl(teacher.getImageUrl());
+    public Teacher createTeacher(TeacherControllerRequest teacherControllerRequest) {
+        Teacher teacher = modelMapper.map(teacherControllerRequest,Teacher.class);
 
         teacherRepository.save(teacher);
+
+        return modelMapper.map(teacher,Teacher.class);
+
+    }
+
+    @Override
+    public List<Teacher>readAllTeachers() {
+        List<Teacher> teachers = teacherRepository.findAll();
+        return teachers;
+    }
+
+    @Override
+    public Teacher getSpecificTeacherById(Long id) throws TeacherNotFoundException {
+
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(
+                () -> new TeacherNotFoundException(id + " teacher not found")
+        );
+        return modelMapper.map(teacher,Teacher.class);
+    }
+
+    @Override
+    public Teacher deleteTeacherById(Long id) throws TeacherNotFoundException {
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(
+                () -> new TeacherNotFoundException(id + " teacher not found")
+        );
+        teacherRepository.delete(teacher);
         return null;
     }
+
+    @Override
+    public Teacher updateSpecificTeacherById(Long id,TeacherControllerRequest teacherControllerRequest) throws TeacherNotFoundException {
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(
+                () -> new TeacherNotFoundException(id + "teacher not found")
+        );
+        modelMapper.map(teacherControllerRequest,teacher);
+        teacherRepository.save(teacher);
+        return modelMapper.map(teacher,Teacher.class);
+    }
+
 }

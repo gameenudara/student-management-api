@@ -32,7 +32,7 @@ public class Teacher {
     private String education;
 
     @Lob
-    private String Experience;
+    private String experience;
 
     @OneToMany(mappedBy = "teacher")
     private List<Grade> grades  = new ArrayList<>();
