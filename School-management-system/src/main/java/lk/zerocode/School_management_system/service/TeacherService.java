@@ -1,14 +1,22 @@
 package lk.zerocode.School_management_system.service;
 
-import lk.zerocode.School_management_system.controller.response.TeacherControllerResponse;
-import lk.zerocode.School_management_system.dto.TeacherDto;
+import lk.zerocode.School_management_system.controller.request.TeacherControllerRequest;
 import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
+import lk.zerocode.School_management_system.model.Teacher;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.List;
 
 @Service
 public interface TeacherService {
-    TeacherControllerResponse createTeacher(TeacherDto teacherDto, MultipartFile multipartFile)throws IOException;
+    Teacher createTeacher(TeacherControllerRequest teacherControllerRequest);
+
+    List<Teacher> readAllTeachers();
+
+    Teacher getSpecificTeacherById(Long id) throws TeacherNotFoundException;
+
+    Teacher deleteTeacherById(Long id) throws TeacherNotFoundException;
+
+    Teacher updateSpecificTeacherById(Long id,TeacherControllerRequest teacherControllerRequest) throws TeacherNotFoundException;
+
 }
