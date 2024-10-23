@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeacherControllerResponse {
+public class TeacherResponse {
 
     private String name;
     private String nic;
