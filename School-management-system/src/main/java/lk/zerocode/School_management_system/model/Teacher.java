@@ -4,19 +4,20 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
-@Table(name = "teacher")
-public class Teacher {
+@Table(name = "teachers")
+public class Teacher extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String teacherName;
     private String nic;
     private String address;
     private Integer mobile;
@@ -33,8 +34,5 @@ public class Teacher {
 
     @Lob
     private String Experience;
-
-    @OneToMany(mappedBy = "teacher")
-    private List<Grade> grades  = new ArrayList<>();
 
 }

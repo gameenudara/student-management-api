@@ -20,7 +20,7 @@ public class TeacherDto {
     private LocalDate date;
     private String email;
     private String subject;
-    private MultipartFile imageUrl;
+    private String imageUrl;
     private Gender gender;
     private String education;
     private String Experience;

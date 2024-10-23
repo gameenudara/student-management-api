@@ -13,7 +13,7 @@ public class TeacherController {
     private final TeacherService teacherService;
 
     @PostMapping("/api/teachers")
-    public TeacherDto addTeacher(@RequestBody TeacherDto teacherDto, @RequestParam MultipartFile file)throws Exception {
-        return teacherService.createTeacher(teacherDto,file);
+    public void addTeacher(@RequestBody TeacherDto teacherDto)throws Exception {
+         teacherService.createTeacher(teacherDto);
     }
 }

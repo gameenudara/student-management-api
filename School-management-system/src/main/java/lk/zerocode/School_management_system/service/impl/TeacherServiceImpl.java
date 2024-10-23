@@ -22,9 +22,8 @@ public class TeacherServiceImpl implements TeacherService {
     private ModelMapper modelMapper;
 
     @Override
-    public TeacherControllerResponse createTeacher(TeacherDto teacherDto, MultipartFile multipartFile) throws IOException {
+    public TeacherControllerResponse createTeacher(TeacherDto teacherDto) throws IOException {
         Teacher teacher = modelMapper.map(teacherDto, Teacher.class);
-        teacher.setImageUrl(teacher.getImageUrl());
 
         teacherRepository.save(teacher);
         return null;

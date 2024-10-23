@@ -10,5 +10,6 @@ import java.io.IOException;
 
 @Service
 public interface TeacherService {
-    TeacherControllerResponse createTeacher(TeacherDto teacherDto, MultipartFile multipartFile)throws IOException;
+    //todo create
+    TeacherControllerResponse createTeacher(TeacherDto teacherDto)throws IOException;
 }
