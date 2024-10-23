@@ -1,0 +1,37 @@
+package lk.zerocode.School_management_system.controller;
+
+import lk.zerocode.School_management_system.controller.request.ParentRequest;
+import lk.zerocode.School_management_system.controller.response.ParentResponse;
+import lk.zerocode.School_management_system.exception.StudentNotFoundException;
+import lk.zerocode.School_management_system.model.Parent;
+import lk.zerocode.School_management_system.service.ParentService;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
+@AllArgsConstructor
+public class ParentController {
+
+    private final ParentService parentService;
+    private final ModelMapper modelMapper;
+
+    @PostMapping(value = "students/{student-id}/parents",headers = "X-Api-Version=v1")
+    public ResponseEntity<ParentResponse> create(@PathVariable("student-id") Long studentId,@RequestBody ParentRequest parentRequest)throws StudentNotFoundException {
+        Parent parent = parentService.create(studentId,parentRequest);
+        ParentResponse parentResponse = modelMapper.map(parent, ParentResponse.class);
+        return new ResponseEntity<>(parentResponse, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/parents",headers = "X-Api_version=v1")
+    public ResponseEntity<List<ParentResponse>> getAll(){
+        List<Parent> parents = parentService.findAll();
+        List<ParentResponse> parentResponses = modelMapper.map(parents, List.class);
+        return new ResponseEntity<>(parentResponses, HttpStatus.OK);
+    }
+}
