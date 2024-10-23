@@ -1,6 +1,7 @@
 package lk.zerocode.School_management_system.service.impl;
 
-import lk.zerocode.School_management_system.controller.request.ParentRegisterRequest;
+
+import lk.zerocode.School_management_system.controller.request.ParentRequest;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.Parent;
 import lk.zerocode.School_management_system.repository.ParentRepository;
@@ -10,48 +11,31 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ParentServiceImpl implements ParentService {
-
-    private ParentRepository parentRepository;
-    private StudentRepository studentRepository;
-    private ModelMapper modelMapper;
+  
+    private final ParentRepository parentRepository;
+    private final ModelMapper modelMapper;
+    private final StudentRepository studentRepository;
 
     @Override
-    public Parent create(ParentRegisterRequest request) {
+    public Parent create(Long studentId,ParentRequest parentRequest) throws StudentNotFoundException {
 
-        Parent parent = modelMapper.map(request, Parent.class);
-        Parent savedParent = parentRepository.save(parent);
-        return modelMapper.map(savedParent, Parent.class);
-
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new StudentNotFoundException("Student not found with id: " + studentId)
+        );
+        Parent parent = modelMapper.map(parentRequest, Parent.class);
+        parentRepository.save(parent);
+        return modelMapper.map(parent, Parent.class);
     }
 
     @Override
-    public void mapParentStudent(Long id, StudentParentMapRequest request) throws StudentNotFoundException {
-
-//        System.out.println(id);
-//        System.out.println(request);
-//        Student student = studentRepository.findById(id)
-//
-//                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
-//
-//        Set<Parent> parents = request.getParentIds().stream()
-//                .map(parentId -> {
-//                    try {
-//                        return parentRepository.findById(parentId)
-//                                .orElseThrow(() -> new ParentNotFoundException("Parent not found with ID: " + parentId));
-//                    } catch (ParentNotFoundException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                })
-//                .collect(Collectors.toSet());
-//        student.setParents(new ArrayList<>(parents));
-//
-//        System.out.println(student);
-//
-//        parents.forEach(parent -> parent.getStudents().add(student));
-//        System.out.println("THUSHAN");
-//        studentRepository.save(student);
+    public List<Parent> findAll() {
+        List<Parent> parents = parentRepository.findAll();
+        return parents;
     }
+  
 }
