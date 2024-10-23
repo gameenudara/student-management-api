@@ -30,8 +30,6 @@ public class StudentServiceImpl implements StudentService {
 
         Student savedStudent = studentRepository.save(student);
         return modelMapper.map(savedStudent, Student.class);
-
     }
-
 
 }
