@@ -2,6 +2,7 @@ CREATE TABLE `teacher` (
                            `id` bigint NOT NULL AUTO_INCREMENT,
                            `experience` longtext,
                            `address` varchar(255) DEFAULT NULL,
+                           `created_at` datetime(6) DEFAULT NULL,
                            `date` date DEFAULT NULL,
                            `education` longtext,
                            `email` varchar(255) DEFAULT NULL,
@@ -11,15 +12,15 @@ CREATE TABLE `teacher` (
                            `name` varchar(255) DEFAULT NULL,
                            `nic` varchar(255) DEFAULT NULL,
                            `subject` varchar(255) DEFAULT NULL,
+                           `updated_at` datetime(6) DEFAULT NULL,
                            PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 CREATE TABLE `grade` (
                          `id` bigint NOT NULL AUTO_INCREMENT,
                          `teacher_id` bigint DEFAULT NULL,
-                         `fee` double DEFAULT NULL,
-                         `g_name` varchar(255) DEFAULT NULL,
+                         `class_fee` double DEFAULT NULL,
+                         `grade_name` varchar(255) DEFAULT NULL,
                          `grade` varchar(255) DEFAULT NULL,
                          PRIMARY KEY (`id`),
                          KEY `FK28f8ba9n0feejnamfay479ae1` (`teacher_id`),
@@ -47,11 +48,12 @@ CREATE TABLE `student` (
                            `admission_date` date DEFAULT NULL,
                            `birth_date` date DEFAULT NULL,
                            `gender` enum('FEMALE','MALE') DEFAULT NULL,
-                           `image_url` varchar(255) DEFAULT NULL,
-                           `mobile` int DEFAULT NULL,
+                           `profile_image_url` varchar(255) DEFAULT NULL,
+                           `additional_info` varchar(255) DEFAULT NULL,
                            `name` varchar(255) DEFAULT NULL,
-                           `reg_number` varchar(255) DEFAULT NULL,
+                           `registration_number` varchar(255) DEFAULT NULL,
                            `religion` varchar(255) DEFAULT NULL,
+                           `birth_certificate_url` varchar(255) DEFAULT NULL,
                            `grade_id` bigint DEFAULT NULL,
                            PRIMARY KEY (`id`),
                            KEY `FK4xvaqcll34afqdd9vkydid5qo` (`grade_id`),

@@ -1,12 +1,13 @@
-package lk.zerocode.School_management_system.dto.studentsDtos;
+package lk.zerocode.School_management_system.controller.request;
 
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class PreviousSchoolDto {
+public class PreviousSchoolRequest {
 
+    private Long studentId;
     private String schoolName;
     private LocalDate startDate;
     private LocalDate endDate;

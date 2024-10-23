@@ -7,8 +7,8 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "parent")
-public class Parent {
+@Table(name = "parents")
+public class Parent extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +21,11 @@ public class Parent {
     private String address;
     private String nic;
     private String occupation;
-    private Integer mobile;
+    private String mobile;
     private String religion;
     private Double monthlyAvgIncome;
 
     @ManyToMany(mappedBy = "parents")
     private List<Student> students;
+
 }

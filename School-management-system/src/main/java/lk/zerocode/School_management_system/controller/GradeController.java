@@ -54,6 +54,4 @@ public class GradeController {
         return new ResponseEntity<>(gradeResponse, HttpStatus.OK);
     }
 
-
-
 }

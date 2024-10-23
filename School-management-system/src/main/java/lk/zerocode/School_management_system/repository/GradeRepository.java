@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface GradeRepository extends JpaRepository<Grade, Long> {
+
     @Query("SELECT g FROM Grade g JOIN FETCH g.teacher")
     List<Grade> findAllWithTeachers();
 }

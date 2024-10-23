@@ -5,21 +5,22 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-
 @Entity
 @Data
-@Table(name = "student_leaderships")
+@Table(name = "student_documents")
 
-public class StudentLeadership extends BaseEntity {
+public class StudentDocument extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob
-    private String leadership;
+    private String documentPath;
 
     @ManyToOne
     private Student student;
+
+
 
 }

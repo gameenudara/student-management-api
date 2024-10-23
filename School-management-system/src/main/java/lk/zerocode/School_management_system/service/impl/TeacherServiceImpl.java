@@ -20,6 +20,7 @@ public class TeacherServiceImpl implements TeacherService {
     private ModelMapper modelMapper;
 
     @Override
+
     public Teacher createTeacher(TeacherRequest teacherControllerRequest) {
         Teacher teacher = modelMapper.map(teacherControllerRequest,Teacher.class);
 

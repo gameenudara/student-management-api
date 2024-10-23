@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public interface TeacherService {
+
     Teacher createTeacher(TeacherRequest teacherControllerRequest);
 
     List<Teacher> readAllTeachers();
