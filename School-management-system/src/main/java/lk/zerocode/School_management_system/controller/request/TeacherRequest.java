@@ -22,5 +22,5 @@ public class TeacherRequest {
     private String imageUrl;
     private Gender gender;
     private String education;
-    private String Experience;
+    private String experience;
 }

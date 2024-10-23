@@ -1,21 +1,14 @@
 package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.ParentRegisterRequest;
-import lk.zerocode.School_management_system.controller.request.StudentParentMapRequest;
-import lk.zerocode.School_management_system.exception.ParentNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.Parent;
-import lk.zerocode.School_management_system.model.Student;
 import lk.zerocode.School_management_system.repository.ParentRepository;
 import lk.zerocode.School_management_system.repository.StudentRepository;
 import lk.zerocode.School_management_system.service.ParentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
