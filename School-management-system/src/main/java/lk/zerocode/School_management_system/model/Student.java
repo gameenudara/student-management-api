@@ -2,15 +2,18 @@ package lk.zerocode.School_management_system.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
-@Table(name = "student")
-public class Student {
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "students")
+public class Student extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +21,7 @@ public class Student {
 
     private String profileImageUrl;
     private String name;
-    private String regNumber;
+    private String registrationNumber;
     private String address;
 
     @Enumerated(EnumType.STRING)
@@ -26,14 +29,13 @@ public class Student {
 
     private LocalDate birthDate;
     private LocalDate admissionDate;
-    private Integer mobile; /* mobile number eka ain karanne oni */
     private String religion;
+
+    @Enumerated(EnumType.STRING)
+    private Draft draft;
 
     @ManyToOne
     private Grade grade;
-
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Attendance> attendance = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -42,20 +44,5 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "parent_id")
     )
     private List<Parent> parents = new ArrayList<>();
-
-    @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
-    private List<StudentHealth> studentHealths = new ArrayList<>();
-
-    @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
-    private List<StudentPreviousSchool> studentPreviousSchools  = new ArrayList<>();
-
-    @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
-    private List<StudentExtraActivity> studentExtraActivities  = new ArrayList<>();
-
-    @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
-    private List<StudentLeadership> studentLeaderships  = new ArrayList<>();
-
-
-
 
 }

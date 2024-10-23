@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="HttpClientEndpointsTabState">
+    <option name="requestToText" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;da4335e9531929c2e73bed3d8b22a20803e8b402&quot; value=&quot;###&amp;#10;POST http://localhost:8082/students&quot; /&gt;&#10;  &lt;entry key=&quot;9b02791c56358933f255fb9a14ac697225888bb5&quot; value=&quot;###&amp;#10;POST http://localhost:8082/users/{{user-id}}/students/&quot; /&gt;&#10;  &lt;entry key=&quot;e548d6cd46339c1f26d8d21e0169644bc33938dd&quot; value=&quot;###&amp;#10;POST http://localhost:8082/users/{{user-id}}/students/students&quot; /&gt;&#10;  &lt;entry key=&quot;f95fa7b46028a9fb8ebf9f9539824a6fe98ca3e1&quot; value=&quot;###&amp;#10;POST http://localhost:8082/api/teachers?&amp;#10;    file={{$random.alphanumeric(8)}}&amp;#10;    Content-Type: application/json&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+  </component>
+</project>

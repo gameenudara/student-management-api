@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ParentServiceImpl implements ParentService {
-
+  
     private final ParentRepository parentRepository;
     private final ModelMapper modelMapper;
     private final StudentRepository studentRepository;
@@ -37,4 +37,5 @@ public class ParentServiceImpl implements ParentService {
         List<Parent> parents = parentRepository.findAll();
         return parents;
     }
+  
 }

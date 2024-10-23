@@ -3,12 +3,14 @@ package lk.zerocode.School_management_system.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 
 @Entity
 @Data
-@Table(name = "student_extra_activity")
+@Table(name = "student_extra_activitys")
 
-public class StudentExtraActivity {
+public class StudentExtraActivity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +21,5 @@ public class StudentExtraActivity {
 
     @ManyToOne
     private Student student;
-
-
-
 
 }

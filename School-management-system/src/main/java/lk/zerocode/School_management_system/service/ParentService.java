@@ -13,4 +13,5 @@ public interface ParentService {
     Parent create(Long studentId,ParentRequest parentRequest)throws StudentNotFoundException;
 
     List<Parent> findAll();
+
 }

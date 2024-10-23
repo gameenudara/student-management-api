@@ -1,5 +1,6 @@
 package lk.zerocode.School_management_system.controller;
 
+
 import lk.zerocode.School_management_system.controller.request.ParentRequest;
 import lk.zerocode.School_management_system.controller.response.ParentResponse;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
@@ -34,4 +35,5 @@ public class ParentController {
         List<ParentResponse> parentResponses = modelMapper.map(parents, List.class);
         return new ResponseEntity<>(parentResponses, HttpStatus.OK);
     }
+
 }
