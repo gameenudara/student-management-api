@@ -1,6 +1,6 @@
 package lk.zerocode.School_management_system.service.impl;
 
-import lk.zerocode.School_management_system.controller.request.TeacherControllerRequest;
+import lk.zerocode.School_management_system.controller.request.TeacherRequest;
 import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
 import lk.zerocode.School_management_system.model.Teacher;
 import lk.zerocode.School_management_system.repository.TeacherRepository;
@@ -20,7 +20,7 @@ public class TeacherServiceImpl implements TeacherService {
     private ModelMapper modelMapper;
 
     @Override
-    public Teacher createTeacher(TeacherControllerRequest teacherControllerRequest) {
+    public Teacher createTeacher(TeacherRequest teacherControllerRequest) {
         Teacher teacher = modelMapper.map(teacherControllerRequest,Teacher.class);
 
         teacherRepository.save(teacher);
@@ -54,13 +54,19 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Teacher updateSpecificTeacherById(Long id,TeacherControllerRequest teacherControllerRequest) throws TeacherNotFoundException {
+    public Teacher updateSpecificTeacherById(Long id, TeacherRequest teacherControllerRequest) throws TeacherNotFoundException {
         Teacher teacher = teacherRepository.findById(id).orElseThrow(
                 () -> new TeacherNotFoundException(id + "teacher not found")
         );
         modelMapper.map(teacherControllerRequest,teacher);
         teacherRepository.save(teacher);
         return modelMapper.map(teacher,Teacher.class);
+    }
+
+    @Override
+    public List<Teacher> getAllTeachersWithGrades() {
+        List<Teacher>teacherList = teacherRepository.findAll();
+        return teacherList;
     }
 
 }

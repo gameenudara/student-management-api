@@ -4,14 +4,13 @@ import lk.zerocode.School_management_system.model.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeacherControllerRequest {
+public class TeacherRequest {
 
     private String name;
     private String nic;

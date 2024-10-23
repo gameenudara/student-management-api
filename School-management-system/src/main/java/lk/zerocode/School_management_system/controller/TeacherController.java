@@ -1,7 +1,8 @@
 package lk.zerocode.School_management_system.controller;
 
-import lk.zerocode.School_management_system.controller.request.TeacherControllerRequest;
-import lk.zerocode.School_management_system.controller.response.TeacherControllerResponse;
+import lk.zerocode.School_management_system.controller.request.TeacherRequest;
+import lk.zerocode.School_management_system.controller.response.GradeTeacherResponse;
+import lk.zerocode.School_management_system.controller.response.TeacherResponse;
 import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
 import lk.zerocode.School_management_system.model.Teacher;
 import lk.zerocode.School_management_system.service.TeacherService;
@@ -21,39 +22,47 @@ import java.util.List;
         private final TeacherService teacherService;
         private final ModelMapper modelMapper;
 
-    @PostMapping("/teachers")
-    public ResponseEntity<TeacherControllerResponse> createTeacher(@RequestBody TeacherControllerRequest teacherControllerRequest) {
+    @PostMapping(value = "/teachers",headers = "X-Api-Version=v1")
+    public ResponseEntity<TeacherResponse> createTeacher(@RequestBody TeacherRequest teacherControllerRequest) {
             Teacher teacher = teacherService.createTeacher(teacherControllerRequest);
-            TeacherControllerResponse teacherControllerResponse = modelMapper.map(teacher,TeacherControllerResponse.class);
+            TeacherResponse teacherControllerResponse = modelMapper.map(teacher, TeacherResponse.class);
             return new ResponseEntity<>(teacherControllerResponse, HttpStatus.CREATED);
         }
 
-    @GetMapping("/teachers")
-    public ResponseEntity<List<TeacherControllerResponse>> getAllTeachers() {
+    @GetMapping(value = "/teachers",headers = "X-Api-Version=v1")
+    public ResponseEntity<List<TeacherResponse>> getAllTeachers() {
         List<Teacher> teacherList = teacherService.readAllTeachers();
-        List<TeacherControllerResponse> teacherControllerResponseList = teacherList.stream().map(teacher -> modelMapper.map(teacher, TeacherControllerResponse.class)).toList();
+        List<TeacherResponse> teacherControllerResponseList = teacherList.stream().map(teacher -> modelMapper.map(teacher, TeacherResponse.class)).toList();
         return new ResponseEntity<>(teacherControllerResponseList,HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/teachers")
-    public ResponseEntity<TeacherControllerResponse> getTeacherById(@PathVariable("id") Long id) throws TeacherNotFoundException {
+    @GetMapping(value = "/{id}/teachers",headers = "X-Api-Version=v1")
+    public ResponseEntity<TeacherResponse> getTeacherById(@PathVariable("id") Long id) throws TeacherNotFoundException {
         Teacher teacher = teacherService.getSpecificTeacherById(id);
-        TeacherControllerResponse teacherControllerResponse = modelMapper.map(teacher, TeacherControllerResponse.class);
+        TeacherResponse teacherControllerResponse = modelMapper.map(teacher, TeacherResponse.class);
         return new ResponseEntity<>(teacherControllerResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}/teachers")
-    public ResponseEntity<TeacherControllerResponse> deleteTeacherById(@PathVariable("id") Long id) throws TeacherNotFoundException {
+    @DeleteMapping(value = "/{id}/teachers",headers = "X-Api-Version=v1")
+    public ResponseEntity<TeacherResponse> deleteTeacherById(@PathVariable("id") Long id) throws TeacherNotFoundException {
         teacherService.deleteTeacherById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{id}/teachers")
-    public ResponseEntity<TeacherControllerResponse>updateById(@PathVariable("id") Long id, @RequestBody TeacherControllerRequest teacherControllerRequest) throws TeacherNotFoundException {
+    @PutMapping(value = "/{id}/teachers",headers = "X-Api-Version=v1")
+    public ResponseEntity<TeacherResponse>updateById(@PathVariable("id") Long id, @RequestBody TeacherRequest teacherControllerRequest) throws TeacherNotFoundException {
         Teacher teacher = teacherService.updateSpecificTeacherById(id,teacherControllerRequest);
-        TeacherControllerResponse teacherControllerResponse = modelMapper.map(teacher, TeacherControllerResponse.class);
+        TeacherResponse teacherControllerResponse = modelMapper.map(teacher, TeacherResponse.class);
         return new ResponseEntity<>(teacherControllerResponse, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/teachers-with-grades",headers = "X-Api-Version=v1")
+    public ResponseEntity<List<GradeTeacherResponse>> getAllTeachersWithGrades(){
+        List<Teacher> teacherList = teacherService.getAllTeachersWithGrades();
+        List<GradeTeacherResponse> gradeTeacherResponses = teacherList.stream().map(teacher -> modelMapper.map(teacher,GradeTeacherResponse.class)).toList();
+        return new ResponseEntity<>(gradeTeacherResponses,HttpStatus.OK);
+    }
+
 
     }
 
