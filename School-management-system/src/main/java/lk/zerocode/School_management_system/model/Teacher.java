@@ -33,6 +33,6 @@ public class Teacher extends BaseEntity {
     private String education;
 
     @Lob
-    private String Experience;
+    private String experience;
 
 }
