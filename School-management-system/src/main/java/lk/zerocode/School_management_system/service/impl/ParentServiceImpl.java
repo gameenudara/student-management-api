@@ -2,6 +2,7 @@ package lk.zerocode.School_management_system.service.impl;
 
 
 import lk.zerocode.School_management_system.controller.request.ParentRequest;
+import lk.zerocode.School_management_system.exception.ParentNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.Parent;
 import lk.zerocode.School_management_system.model.Student;
@@ -32,8 +33,19 @@ public class ParentServiceImpl implements ParentService {
 
     @Override
     public List<Parent> findAll() {
+
         List<Parent> parents = parentRepository.findAll();
         return parents;
     }
-  
+
+    @Override
+    public Parent findById(Long parentId) throws ParentNotFoundException {
+
+        Parent parent = parentRepository.findById(parentId).orElseThrow(
+                () ->new ParentNotFoundException("Parent not found with id: " + parentId)
+        );
+
+        return modelMapper.map(parent, Parent.class);
+    }
+
 }
