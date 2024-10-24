@@ -17,9 +17,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class StudentDocumentServiceImpl implements StudentDocumentService {
 
-    private final StudentDocumentRepository studentDocumentRepository;
-    private final StudentRepository studentRepository;
+    private StudentDocumentRepository studentDocumentRepository;
+    private StudentRepository studentRepository;
 
+    @Override
     public List<StudentDocument> createStudentDocument(StudentDocumentRequest request, Long studentId) {
 
         Student student = studentRepository.findById(studentId)
