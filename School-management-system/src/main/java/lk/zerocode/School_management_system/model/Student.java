@@ -30,6 +30,7 @@ public class Student extends BaseEntity {
     private LocalDate birthDate;
     private LocalDate admissionDate;
     private String religion;
+    private Status status;
 
     @Enumerated(EnumType.STRING)
     private Draft draft;
