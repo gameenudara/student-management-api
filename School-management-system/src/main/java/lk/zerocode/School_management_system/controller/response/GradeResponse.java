@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class GradeResponse {
     private String grade;
     private String gradeName;
-    private Double fee;
+    private Double classFee;
     private String teacherName;
 }

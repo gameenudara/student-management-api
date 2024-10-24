@@ -37,18 +37,4 @@ public class StudentController {
 
     }
 
-
-//    @PutMapping(value = "/students/{student-id}", headers = "X-Api-Version=v1")
-//    public ResponseEntity<Student> studentUpdate(
-//            @RequestBody StudentInformationRequest request,
-//            @PathVariable("student-id") Long studentId) {
-//        try {
-//            Student updatedStudent = studentService.updateById(request, studentId);
-//            return new ResponseEntity<>(updatedStudent, HttpStatus.OK);
-//        } catch (GradeNotFoundException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        } catch (StudentNotFoundException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
 }
