@@ -79,7 +79,7 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+  
    @DeleteMapping(value = "/{student-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<?> deleteById(@PathVariable("student-id") Long studentId) {
        System.out.println(studentId);
@@ -92,5 +92,4 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

@@ -23,11 +23,8 @@ public class ParentServiceImpl implements ParentService {
     private final StudentRepository studentRepository;
 
     @Override
-    public Parent create(Long studentId,ParentRequest parentRequest) throws StudentNotFoundException {
+    public Parent create(ParentRequest parentRequest) {
 
-        Student student = studentRepository.findById(studentId).orElseThrow(
-                () -> new StudentNotFoundException("Student not found with id: " + studentId)
-        );
         Parent parent = modelMapper.map(parentRequest, Parent.class);
         parentRepository.save(parent);
         return modelMapper.map(parent, Parent.class);

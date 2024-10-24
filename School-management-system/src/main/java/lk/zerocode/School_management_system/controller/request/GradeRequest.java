@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 public class GradeRequest {
     private String grade;
-    private String gName;
-    private Double fee;
+    private String gradeName;
+    private Double classFee;
     private Long teacherId;
 }

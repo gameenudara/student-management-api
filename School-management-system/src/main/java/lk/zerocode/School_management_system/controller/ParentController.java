@@ -23,14 +23,14 @@ public class ParentController {
     private final ParentService parentService;
     private final ModelMapper modelMapper;
 
-    @PostMapping(value = "students/{student-id}/parents",headers = "X-Api-Version=v1")
-    public ResponseEntity<ParentResponse> create(@PathVariable("student-id") Long studentId,@RequestBody ParentRequest parentRequest)throws StudentNotFoundException {
-        Parent parent = parentService.create(studentId,parentRequest);
+    @PostMapping(value = "/parents",headers = "X-Api-Version=v1")
+    public ResponseEntity<ParentResponse> create(@RequestBody ParentRequest parentRequest) {
+        Parent parent = parentService.create(parentRequest);
         ParentResponse parentResponse = modelMapper.map(parent, ParentResponse.class);
         return new ResponseEntity<>(parentResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/parents",headers = "X-Api_version=v1")
+    @GetMapping(value = "/parents",headers = "X-Api-version=v1")
     public ResponseEntity<List<ParentResponse>> getAll(){
         List<Parent> parents = parentService.findAll();
         List<ParentResponse> parentResponses = modelMapper.map(parents, List.class);

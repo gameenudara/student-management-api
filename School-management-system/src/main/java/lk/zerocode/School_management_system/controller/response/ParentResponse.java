@@ -15,7 +15,7 @@ public class ParentResponse {
     private String address;
     private String nic;
     private String occupation;
-    private Integer mobile;
+    private String mobile;
     private String religion;
     private Double monthlyAvgIncome;
 }
