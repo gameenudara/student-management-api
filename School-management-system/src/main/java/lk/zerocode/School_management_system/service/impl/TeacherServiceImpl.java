@@ -22,16 +22,16 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
 
     public Teacher createTeacher(TeacherRequest teacherControllerRequest) {
-        Teacher teacher = modelMapper.map(teacherControllerRequest,Teacher.class);
+        Teacher teacher = modelMapper.map(teacherControllerRequest, Teacher.class);
 
         teacherRepository.save(teacher);
 
-        return modelMapper.map(teacher,Teacher.class);
+        return modelMapper.map(teacher, Teacher.class);
 
     }
 
     @Override
-    public List<Teacher>readAllTeachers() {
+    public List<Teacher> readAllTeachers() {
         List<Teacher> teachers = teacherRepository.findAll();
         return teachers;
     }
@@ -39,34 +39,28 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher getSpecificTeacherById(Long id) throws TeacherNotFoundException {
 
-        Teacher teacher = teacherRepository.findById(id).orElseThrow(
-                () -> new TeacherNotFoundException(id + " teacher not found")
-        );
-        return modelMapper.map(teacher,Teacher.class);
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id + " teacher not found"));
+        return modelMapper.map(teacher, Teacher.class);
     }
 
     @Override
     public Teacher deleteTeacherById(Long id) throws TeacherNotFoundException {
-        Teacher teacher = teacherRepository.findById(id).orElseThrow(
-                () -> new TeacherNotFoundException(id + " teacher not found")
-        );
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id + " teacher not found"));
         teacherRepository.delete(teacher);
         return null;
     }
 
     @Override
     public Teacher updateSpecificTeacherById(Long id, TeacherRequest teacherControllerRequest) throws TeacherNotFoundException {
-        Teacher teacher = teacherRepository.findById(id).orElseThrow(
-                () -> new TeacherNotFoundException(id + "teacher not found")
-        );
-        modelMapper.map(teacherControllerRequest,teacher);
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new TeacherNotFoundException(id + "teacher not found"));
+        modelMapper.map(teacherControllerRequest, teacher);
         teacherRepository.save(teacher);
-        return modelMapper.map(teacher,Teacher.class);
+        return modelMapper.map(teacher, Teacher.class);
     }
 
     @Override
     public List<Teacher> getAllTeachersWithGrades() {
-        List<Teacher>teacherList = teacherRepository.findAll();
+        List<Teacher> teacherList = teacherRepository.findAll();
         return teacherList;
     }
 

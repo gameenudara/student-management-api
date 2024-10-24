@@ -18,9 +18,12 @@ public class StudentDocument extends BaseEntity {
     @Lob
     private String documentPath;
 
+    @Enumerated(EnumType.STRING)
+    private DocType docType;
+
+    private String docFormat;
+
     @ManyToOne
     private Student student;
-
-
 
 }

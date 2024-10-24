@@ -1,9 +1,7 @@
 package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.HealthStatusRequest;
-import lk.zerocode.School_management_system.exception.GradeNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
-import lk.zerocode.School_management_system.model.Grade;
 import lk.zerocode.School_management_system.model.Student;
 import lk.zerocode.School_management_system.model.StudentHealth;
 import lk.zerocode.School_management_system.repository.StudentHealthRepository;

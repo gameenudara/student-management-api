@@ -7,7 +7,6 @@ import java.util.List;
 @Data
 public class StudentDocumentRequest {
 
-    private Long studentId;
     private String birthCertificate;
     private List<String> otherDocuments;
 

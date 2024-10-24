@@ -22,29 +22,29 @@ public class GradeController {
     private final GradeService gradeService;
     private final ModelMapper modelMapper;
 
-    @PostMapping(value = "/teachers/{id}/grades",headers = "X-Api-Version=v1")
-    public ResponseEntity<GradeResponse>createGrade(@PathVariable Long id,@RequestBody GradeRequest gradeRequest)throws TeacherNotFoundException {
+    @PostMapping(value = "/teachers/{id}/grades", headers = "X-Api-Version=v1")
+    public ResponseEntity<GradeResponse> createGrade(@PathVariable Long id, @RequestBody GradeRequest gradeRequest) throws TeacherNotFoundException {
 
-        Grade grade = gradeService.creteGrade(id,gradeRequest);
+        Grade grade = gradeService.creteGrade(id, gradeRequest);
         GradeResponse gradeResponse = modelMapper.map(grade, GradeResponse.class);
-        return new ResponseEntity<>(gradeResponse,HttpStatus.CREATED);
+        return new ResponseEntity<>(gradeResponse, HttpStatus.CREATED);
 
     }
 
-    @GetMapping(value = "/grades",headers = "X-Api-Version=v1")
+    @GetMapping(value = "/grades", headers = "X-Api-Version=v1")
     public ResponseEntity<List<GradeResponse>> getAllClassesWithTeachers() {
 
         List<Grade> grades = gradeService.readAllGrades();
-        List<GradeResponse> gradeResponseList = grades.stream().map(grade -> modelMapper.map(grade,GradeResponse.class)).toList();
-        return new ResponseEntity<>(gradeResponseList,HttpStatus.OK);
+        List<GradeResponse> gradeResponseList = grades.stream().map(grade -> modelMapper.map(grade, GradeResponse.class)).toList();
+        return new ResponseEntity<>(gradeResponseList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/grades/{id}",headers = "X-Api-Version=v1")
+    @GetMapping(value = "/grades/{id}", headers = "X-Api-Version=v1")
     public ResponseEntity<GradeResponse> getGradesById(@PathVariable Long id) throws GradeNotFoundException {
 
         Grade grade = gradeService.getGradeById(id);
         GradeResponse gradeResponse = modelMapper.map(grade, GradeResponse.class);
-        return new ResponseEntity<>(gradeResponse,HttpStatus.OK);
+        return new ResponseEntity<>(gradeResponse, HttpStatus.OK);
     }
 
 
