@@ -77,6 +77,4 @@ public class StudentServiceImpl implements StudentService {
         student.setStatus(Status.INACTIVE);
         studentRepository.save(student);
     }
-
-
 }
