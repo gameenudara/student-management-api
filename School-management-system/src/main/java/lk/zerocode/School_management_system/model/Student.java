@@ -32,6 +32,9 @@ public class Student extends BaseEntity {
     private String religion;
 
     @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Enumerated(EnumType.STRING)
     private Draft draft;
 
     @ManyToOne

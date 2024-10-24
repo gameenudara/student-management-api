@@ -40,7 +40,6 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An error occurred: " + e.getMessage());
         }
-
     }
 
     @GetMapping(value = "", headers = "X-Api-Version=v1")
@@ -80,5 +79,17 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+  
+   @DeleteMapping(value = "/{student-id}", headers = "X-Api-Version=v1")
+    public ResponseEntity<?> deleteById(@PathVariable("student-id") Long studentId) {
+       System.out.println(studentId);
+        try {
+            studentService.deleteById(studentId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (StudentNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

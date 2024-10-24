@@ -1,11 +1,9 @@
 package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.StudentInformationRequest;
-import lk.zerocode.School_management_system.controller.request.TeacherRequest;
-import lk.zerocode.School_management_system.controller.response.StudentInformationResponse;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
+import lk.zerocode.School_management_system.exception.StudentInactiveException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
-import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
 import lk.zerocode.School_management_system.model.*;
 import lk.zerocode.School_management_system.repository.GradeRepository;
 import lk.zerocode.School_management_system.repository.StudentRepository;
@@ -28,26 +26,29 @@ public class StudentServiceImpl implements StudentService {
     public Student create(StudentInformationRequest request) throws GradeNotFoundException {
 
         Student student = modelMapper.map(request, Student.class);
-
         Grade grade = gradeRepository.findById(request.getGrade())
                 .orElseThrow(() -> new GradeNotFoundException("Grade not found for ID: " + request.getGrade()));
         student.setGrade(grade);
         student.setDraft(Draft.INCOMPLETE);
-
+        student.setStatus(Status.ACTIVE);
         Student savedStudent = studentRepository.save(student);
         return modelMapper.map(savedStudent, Student.class);
     }
 
     @Override
     public List<Student> getAllStudents() {
-        List<Student> studentList = studentRepository.findAll();
-        return studentList;
+        return studentRepository.findByStatus(Status.ACTIVE);
     }
 
     @Override
     public Student getStudentById(Long studentId) throws StudentNotFoundException {
-        return studentRepository.findById(studentId)
+
+        Student student =studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentNotFoundException("Student not found for ID: " + studentId));
+        if (!Status.ACTIVE.equals(student.getStatus())) {
+            throw new StudentInactiveException("Student with ID: " + studentId + " is not active.");
+        }
+        return student;
     }
 
     @Override
@@ -59,9 +60,23 @@ public class StudentServiceImpl implements StudentService {
         Grade grade = gradeRepository.findById(request.getGrade())
                 .orElseThrow(() -> new GradeNotFoundException("Grade not found for ID: " + request.getGrade()));
         existingStudent.setGrade(grade);
-
+        existingStudent.setStatus(Status.ACTIVE);
         Student updateStudent = studentRepository.save(existingStudent);
         return modelMapper.map(updateStudent, Student.class);
     }
+
+    @Override
+    public void deleteById(Long studentId) throws StudentNotFoundException {
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found for ID: " + studentId));
+
+        if (Status.INACTIVE.equals(student.getStatus())) {
+            throw new IllegalStateException("Student with ID: " + studentId + " is already inactive.");
+        }
+        student.setStatus(Status.INACTIVE);
+        studentRepository.save(student);
+    }
+
 
 }

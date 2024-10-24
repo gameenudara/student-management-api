@@ -1,7 +1,6 @@
 package lk.zerocode.School_management_system.service;
 
 import lk.zerocode.School_management_system.controller.request.StudentInformationRequest;
-import lk.zerocode.School_management_system.controller.response.StudentInformationResponse;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.Student;
@@ -18,4 +17,5 @@ public interface StudentService {
 
     Student updateById(StudentInformationRequest request,Long studentId) throws StudentNotFoundException,GradeNotFoundException;
 
+    void deleteById(Long studentId) throws StudentNotFoundException;
 }
