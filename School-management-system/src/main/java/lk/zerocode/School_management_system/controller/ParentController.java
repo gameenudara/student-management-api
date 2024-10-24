@@ -2,6 +2,7 @@ package lk.zerocode.School_management_system.controller;
 
 
 
+import lk.zerocode.School_management_system.controller.request.ParentAssignRequest;
 import lk.zerocode.School_management_system.controller.request.ParentRequest;
 import lk.zerocode.School_management_system.controller.response.ParentResponse;
 import lk.zerocode.School_management_system.exception.ParentNotFoundException;
@@ -48,4 +49,10 @@ public class ParentController {
         return new ResponseEntity<>(parentResponse, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/students/{student-id}/parents",headers = "X-Api-Version=v1")
+    public ResponseEntity<String> assignParentToStudent(@PathVariable("student-id")Long studentId,
+                                                        @RequestBody ParentAssignRequest parentAssignRequest)throws StudentNotFoundException, ParentNotFoundException {
+        parentService.assignParentToStudent(studentId, parentAssignRequest);
+        return new ResponseEntity<>("Parent or parents assigned to student successfully", HttpStatus.OK);
+    }
 }
