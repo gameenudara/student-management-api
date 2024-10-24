@@ -2,8 +2,10 @@ package lk.zerocode.School_management_system.controller;
 
 
 
+import lk.zerocode.School_management_system.controller.request.ParentAssignRequest;
 import lk.zerocode.School_management_system.controller.request.ParentRequest;
 import lk.zerocode.School_management_system.controller.response.ParentResponse;
+import lk.zerocode.School_management_system.exception.ParentNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.Parent;
 import lk.zerocode.School_management_system.service.ParentService;
@@ -25,6 +27,7 @@ public class ParentController {
 
     @PostMapping(value = "/parents",headers = "X-Api-Version=v1")
     public ResponseEntity<ParentResponse> create(@RequestBody ParentRequest parentRequest) {
+
         Parent parent = parentService.create(parentRequest);
         ParentResponse parentResponse = modelMapper.map(parent, ParentResponse.class);
         return new ResponseEntity<>(parentResponse, HttpStatus.CREATED);
@@ -32,9 +35,24 @@ public class ParentController {
 
     @GetMapping(value = "/parents",headers = "X-Api-version=v1")
     public ResponseEntity<List<ParentResponse>> getAll(){
+
         List<Parent> parents = parentService.findAll();
         List<ParentResponse> parentResponses = modelMapper.map(parents, List.class);
         return new ResponseEntity<>(parentResponses, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/parents/{parent-id}",headers = "X-Api-Version=v1")
+    public ResponseEntity<ParentResponse> getById(@PathVariable("parent-id") Long parentId)throws ParentNotFoundException {
+
+        Parent parent = parentService.findById(parentId);
+        ParentResponse parentResponse = modelMapper.map(parent, ParentResponse.class);
+        return new ResponseEntity<>(parentResponse, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/students/{student-id}/parents",headers = "X-Api-Version=v1")
+    public ResponseEntity<String> assignParentToStudent(@PathVariable("student-id")Long studentId,
+                                                        @RequestBody ParentAssignRequest parentAssignRequest)throws StudentNotFoundException, ParentNotFoundException {
+        parentService.assignParentToStudent(studentId, parentAssignRequest);
+        return new ResponseEntity<>("Parent or parents assigned to student successfully", HttpStatus.OK);
+    }
 }
