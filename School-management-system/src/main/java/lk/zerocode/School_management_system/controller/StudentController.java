@@ -51,20 +51,21 @@ public class StudentController {
                     .stream().map(student -> modelMapper
                             .map(student, StudentInformationResponse.class)).toList();
             return new ResponseEntity<>(studentInformationResponses, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
-    @GetMapping(value = "/{student-id}",headers = "X-Api-Version=v1")
+
+    @GetMapping(value = "/{student-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<StudentInformationResponse> getById(@PathVariable("student-id") Long studentId) {
-            try {
-                Student student = studentService.getStudentById(studentId);
-                StudentInformationResponse response = modelMapper.map(student, StudentInformationResponse.class);
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            }catch (StudentNotFoundException e) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+        try {
+            Student student = studentService.getStudentById(studentId);
+            StudentInformationResponse response = modelMapper.map(student, StudentInformationResponse.class);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (StudentNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping(value = "/{student-id}", headers = "X-Api-Version=v1")
