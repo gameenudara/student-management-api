@@ -1,7 +1,7 @@
 package lk.zerocode.School_management_system.controller;
 
 import lk.zerocode.School_management_system.controller.request.TeacherRequest;
-import lk.zerocode.School_management_system.controller.response.GradeTeacherResponse;
+import lk.zerocode.School_management_system.controller.response.TeacherNameListResponse;
 import lk.zerocode.School_management_system.controller.response.TeacherResponse;
 import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
 import lk.zerocode.School_management_system.model.Teacher;
@@ -57,9 +57,9 @@ import java.util.List;
     }
 
     @GetMapping(value = "/teachers-with-grades",headers = "X-Api-Version=v1")
-    public ResponseEntity<List<GradeTeacherResponse>> getAllTeachersWithGrades(){
+    public ResponseEntity<List<TeacherNameListResponse>> getAllTeachersWithGrades(){
         List<Teacher> teacherList = teacherService.getAllTeachersWithGrades();
-        List<GradeTeacherResponse> gradeTeacherResponses = teacherList.stream().map(teacher -> modelMapper.map(teacher,GradeTeacherResponse.class)).toList();
+        List<TeacherNameListResponse> gradeTeacherResponses = teacherList.stream().map(teacher -> modelMapper.map(teacher, TeacherNameListResponse.class)).toList();
         return new ResponseEntity<>(gradeTeacherResponses,HttpStatus.OK);
     }
 
