@@ -1,12 +1,10 @@
 package lk.zerocode.School_management_system.controller;
 
 import lk.zerocode.School_management_system.controller.request.HealthStatusRequest;
-import lk.zerocode.School_management_system.controller.request.PreviousSchoolRequest;
 import lk.zerocode.School_management_system.controller.response.HealthStatusResponse;
 import lk.zerocode.School_management_system.controller.response.StudentPreviousSchoolResponse;
 import lk.zerocode.School_management_system.exception.SchoolNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
-import lk.zerocode.School_management_system.model.PreviousSchool;
 import lk.zerocode.School_management_system.model.StudentHealth;
 import lk.zerocode.School_management_system.service.StudentHealthService;
 import lombok.AllArgsConstructor;
