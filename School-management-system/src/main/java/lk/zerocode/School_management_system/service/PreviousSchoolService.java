@@ -12,7 +12,7 @@ public interface PreviousSchoolService {
 
     PreviousSchool create(Long id, PreviousSchoolRequest request) throws StudentNotFoundException;
 
-    List<PreviousSchool> getAll(Long id) throws StudentNotFoundException;
+    List<PreviousSchool> getAll(Long studentId) throws StudentNotFoundException;
 
     PreviousSchool getById(Long studentId,Long schoolId) throws StudentNotFoundException, SchoolNotFoundException;
 

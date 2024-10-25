@@ -25,9 +25,9 @@ public class PreviousSchoolServiceImpl implements PreviousSchoolService {
     private StudentRepository studentRepository;
 
     @Override
-    public PreviousSchool create(Long id, PreviousSchoolRequest request) throws StudentNotFoundException {
+    public PreviousSchool create(Long studentId, PreviousSchoolRequest request) throws StudentNotFoundException {
 
-        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + id));
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
 
         PreviousSchool studentPreviousSchool = modelMapper.map(request, PreviousSchool.class);
 
@@ -36,17 +36,17 @@ public class PreviousSchoolServiceImpl implements PreviousSchoolService {
     }
 
     @Override
-    public List<PreviousSchool> getAll(Long id) throws StudentNotFoundException {
+    public List<PreviousSchool> getAll(Long studentId) throws StudentNotFoundException {
 
-        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + id));
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
 
         if (!Status.ACTIVE.equals(student.getStatus())) {
-            throw new StudentInactiveException("Student is Inactive " + id);
+            throw new StudentInactiveException("Student is Inactive " + studentId);
         }
-        List<PreviousSchool> previousSchools = previousSchoolRepository.findByStudentId(id);
+        List<PreviousSchool> previousSchools = previousSchoolRepository.findByStudentId(studentId);
 
         if (previousSchools.isEmpty()) {
-            throw new StudentNotFoundException("No previous school records found for Student ID: " + id);
+            throw new StudentNotFoundException("No previous school records found for Student ID: " + studentId);
         }
         return previousSchools;
     }

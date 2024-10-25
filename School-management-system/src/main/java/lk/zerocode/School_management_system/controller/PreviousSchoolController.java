@@ -23,10 +23,10 @@ public class PreviousSchoolController {
     private ModelMapper modelMapper;
 
     @PostMapping(value = "/{student-id}/previous-schools", headers = "X-Api-Version=v1")
-    public ResponseEntity<StudentPreviousSchoolResponse> create(@PathVariable("student-id") Long id,
+    public ResponseEntity<StudentPreviousSchoolResponse> create(@PathVariable("student-id") Long studentId,
                                                                 @RequestBody PreviousSchoolRequest request) {
         try {
-            PreviousSchool studentPreviousSchool = previousSchoolService.create(id, request);
+            PreviousSchool studentPreviousSchool = previousSchoolService.create(studentId, request);
             StudentPreviousSchoolResponse studentPreviousSchoolResponse = modelMapper.map(studentPreviousSchool, StudentPreviousSchoolResponse.class);
             return new ResponseEntity<>(studentPreviousSchoolResponse, HttpStatus.CREATED);
         } catch (StudentNotFoundException e) {
