@@ -1,12 +1,14 @@
 package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.StudentInformationRequest;
+import lk.zerocode.School_management_system.controller.response.StudentGradeDetailsResponse;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentInactiveException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.*;
 import lk.zerocode.School_management_system.repository.GradeRepository;
 import lk.zerocode.School_management_system.repository.StudentRepository;
+import lk.zerocode.School_management_system.repository.TeacherRepository;
 import lk.zerocode.School_management_system.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,6 +22,7 @@ public class StudentServiceImpl implements StudentService {
 
     private StudentRepository studentRepository;
     private GradeRepository gradeRepository;
+    private TeacherRepository teacherRepository;
     private ModelMapper modelMapper;
 
     @Override
@@ -77,4 +80,30 @@ public class StudentServiceImpl implements StudentService {
         student.setStatus(Status.INACTIVE);
         studentRepository.save(student);
     }
+
+    @Override
+    public StudentGradeDetailsResponse getStudentWithGrades(Long studentId) throws StudentNotFoundException {
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found for ID: " + studentId)
+        );
+        Grade grade = student.getGrade();
+        if (grade == null) {
+            throw new RuntimeException("No grade assigned to this student.");
+        }
+                Teacher teacher = grade.getTeacher();
+        System.out.println(teacher);
+
+        if (teacher == null) {
+            throw new RuntimeException("No teacher assigned to this grades.");
+        }
+
+        StudentGradeDetailsResponse studentGradeDetailsResponse = new StudentGradeDetailsResponse();
+        studentGradeDetailsResponse.setGradeNumber(grade.getGradeNumber());
+        studentGradeDetailsResponse.setGradeName(grade.getGradeName());
+        studentGradeDetailsResponse.setTeacherName(teacher.getTeacherName());
+
+        return studentGradeDetailsResponse;
+    }
+
 }

@@ -1,12 +1,11 @@
 package lk.zerocode.School_management_system.controller;
 
 import lk.zerocode.School_management_system.controller.request.StudentInformationRequest;
+import lk.zerocode.School_management_system.controller.response.StudentGradeDetailsResponse;
 import lk.zerocode.School_management_system.controller.response.StudentInformationResponse;
-import lk.zerocode.School_management_system.controller.response.TeacherResponse;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.Student;
-import lk.zerocode.School_management_system.model.Teacher;
 import lk.zerocode.School_management_system.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/students")
@@ -90,5 +88,12 @@ public class StudentController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(value = "grades/students/{student-id}",headers = "X-Api-Version")
+    public ResponseEntity<StudentGradeDetailsResponse>getStudentWithGrades (@PathVariable ("student-id") Long studentId) throws StudentNotFoundException{
+
+        StudentGradeDetailsResponse response = studentService.getStudentWithGrades(studentId);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
