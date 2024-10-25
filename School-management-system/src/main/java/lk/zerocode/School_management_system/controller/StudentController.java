@@ -53,7 +53,6 @@ public class StudentController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @GetMapping(value = "/{student-id}", headers = "X-Api-Version=v1")
