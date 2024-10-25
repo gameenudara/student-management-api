@@ -2,6 +2,7 @@ package lk.zerocode.School_management_system.service;
 
 import lk.zerocode.School_management_system.controller.request.GradeRequest;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
+import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
 import lk.zerocode.School_management_system.model.Grade;
 import org.springframework.stereotype.Service;
@@ -18,4 +19,5 @@ public interface GradeService {
     Grade getGradeById(Long id) throws GradeNotFoundException;
 
     Grade updateById(Long gradeId, GradeRequest gradeRequest)throws GradeNotFoundException, TeacherNotFoundException;
+
 }

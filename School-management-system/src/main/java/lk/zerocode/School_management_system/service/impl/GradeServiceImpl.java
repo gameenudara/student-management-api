@@ -2,10 +2,13 @@ package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.GradeRequest;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
+import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
 import lk.zerocode.School_management_system.model.Grade;
+import lk.zerocode.School_management_system.model.Student;
 import lk.zerocode.School_management_system.model.Teacher;
 import lk.zerocode.School_management_system.repository.GradeRepository;
+import lk.zerocode.School_management_system.repository.StudentRepository;
 import lk.zerocode.School_management_system.repository.TeacherRepository;
 import lk.zerocode.School_management_system.service.GradeService;
 import lombok.AllArgsConstructor;
@@ -20,6 +23,7 @@ public class GradeServiceImpl implements GradeService {
 
     private final GradeRepository gradeRepository;
     private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -73,6 +77,8 @@ public class GradeServiceImpl implements GradeService {
         gradeRepository.save(mappedGrade);
 
         return mappedGrade;
+
     }
+
 
 }
