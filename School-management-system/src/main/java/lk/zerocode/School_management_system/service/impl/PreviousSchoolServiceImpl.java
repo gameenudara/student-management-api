@@ -1,36 +1,89 @@
 package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.PreviousSchoolRequest;
-import lk.zerocode.School_management_system.controller.response.StudentPreviousSchoolResponse;
+import lk.zerocode.School_management_system.exception.SchoolNotFoundException;
+import lk.zerocode.School_management_system.exception.StudentInactiveException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
+import lk.zerocode.School_management_system.model.Status;
 import lk.zerocode.School_management_system.model.Student;
-import lk.zerocode.School_management_system.model.StudentPreviousSchool;
-import lk.zerocode.School_management_system.repository.StudentPreviousSchoolRepository;
+import lk.zerocode.School_management_system.model.PreviousSchool;
+import lk.zerocode.School_management_system.repository.PreviousSchoolRepository;
 import lk.zerocode.School_management_system.repository.StudentRepository;
 import lk.zerocode.School_management_system.service.PreviousSchoolService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class PreviousSchoolServiceImpl implements PreviousSchoolService {
 
-    private StudentPreviousSchoolRepository previousSchoolRepository;
+    private PreviousSchoolRepository previousSchoolRepository;
     private ModelMapper modelMapper;
     private StudentRepository studentRepository;
 
     @Override
-    public StudentPreviousSchoolResponse create(Long id, PreviousSchoolRequest request) throws StudentNotFoundException {
+    public PreviousSchool create(Long id, PreviousSchoolRequest request) throws StudentNotFoundException {
 
-        StudentPreviousSchool studentPreviousSchool = modelMapper.map(request, StudentPreviousSchool.class);
-        Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new StudentNotFoundException("Student Not Found " + id));
+        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + id));
+
+        PreviousSchool studentPreviousSchool = modelMapper.map(request, PreviousSchool.class);
+
         studentPreviousSchool.setStudent(student);
-        StudentPreviousSchool savedPreviousSchool = previousSchoolRepository.save(studentPreviousSchool);
-        return modelMapper.map(savedPreviousSchool, StudentPreviousSchoolResponse.class);
+        return previousSchoolRepository.save(studentPreviousSchool);
     }
 
+    @Override
+    public List<PreviousSchool> getAll(Long id) throws StudentNotFoundException {
 
+        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + id));
+
+        if (!Status.ACTIVE.equals(student.getStatus())) {
+            throw new StudentInactiveException("Student is Inactive " + id);
+        }
+        List<PreviousSchool> previousSchools = previousSchoolRepository.findByStudentId(id);
+
+        if (previousSchools.isEmpty()) {
+            throw new StudentNotFoundException("No previous school records found for Student ID: " + id);
+        }
+        return previousSchools;
+    }
+
+    @Override
+    public PreviousSchool getById(Long studentId, Long schoolId) throws StudentNotFoundException, SchoolNotFoundException {
+
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
+
+        if (!Status.ACTIVE.equals(student.getStatus())) {
+            throw new StudentInactiveException("Student is Inactive " + studentId);
+        }
+        return previousSchoolRepository.findById(schoolId).orElseThrow(() -> new SchoolNotFoundException("School is Not Found " + schoolId));
+    }
+
+    @Override
+    public PreviousSchool updateById(Long studentId, Long schoolId, PreviousSchoolRequest request) throws StudentNotFoundException, SchoolNotFoundException {
+
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
+
+        if (!Status.ACTIVE.equals(student.getStatus())) {
+            throw new StudentInactiveException("Student is Inactive " + studentId);
+        }
+        PreviousSchool existingSchool = previousSchoolRepository.findById(schoolId).orElseThrow(() -> new SchoolNotFoundException("School is Not Found " + schoolId));
+        modelMapper.map(request, existingSchool);
+        return previousSchoolRepository.save(existingSchool);
+    }
+
+    @Override
+    public void deleteById(Long studentId, Long schoolId) throws StudentNotFoundException, SchoolNotFoundException {
+
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
+        if (!Status.ACTIVE.equals(student.getStatus())) {
+            throw new StudentInactiveException("Student is Inactive " + studentId);
+        }
+        PreviousSchool existingSchool = previousSchoolRepository.findById(schoolId).orElseThrow(() -> new SchoolNotFoundException("School is Not Found " + schoolId));
+        previousSchoolRepository.delete(existingSchool);
+    }
 }
 
