@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Data
 public class HealthStatusResponse {
 
-    private Long studentId;
+    private Long id;
     private String condition;
     private LocalDate diagnosisDate;
 
