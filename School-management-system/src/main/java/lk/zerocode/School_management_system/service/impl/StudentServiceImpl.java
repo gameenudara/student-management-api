@@ -8,7 +8,6 @@ import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.*;
 import lk.zerocode.School_management_system.repository.GradeRepository;
 import lk.zerocode.School_management_system.repository.StudentRepository;
-import lk.zerocode.School_management_system.repository.TeacherRepository;
 import lk.zerocode.School_management_system.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,7 +21,6 @@ public class StudentServiceImpl implements StudentService {
 
     private StudentRepository studentRepository;
     private GradeRepository gradeRepository;
-    private TeacherRepository teacherRepository;
     private ModelMapper modelMapper;
 
     @Override
