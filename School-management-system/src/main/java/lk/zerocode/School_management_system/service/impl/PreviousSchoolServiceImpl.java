@@ -36,7 +36,7 @@ public class PreviousSchoolServiceImpl implements PreviousSchoolService {
     }
 
     @Override
-    public List<PreviousSchool> getAll(Long studentId) throws StudentNotFoundException {
+    public List<PreviousSchool> getAll(Long studentId) throws StudentNotFoundException, StudentInactiveException {
 
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
 
@@ -52,7 +52,7 @@ public class PreviousSchoolServiceImpl implements PreviousSchoolService {
     }
 
     @Override
-    public PreviousSchool getById(Long studentId, Long schoolId) throws StudentNotFoundException, SchoolNotFoundException {
+    public PreviousSchool getById(Long studentId, Long schoolId) throws StudentNotFoundException, SchoolNotFoundException, StudentInactiveException {
 
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
 
@@ -63,7 +63,7 @@ public class PreviousSchoolServiceImpl implements PreviousSchoolService {
     }
 
     @Override
-    public PreviousSchool updateById(Long studentId, Long schoolId, PreviousSchoolRequest request) throws StudentNotFoundException, SchoolNotFoundException {
+    public PreviousSchool updateById(Long studentId, Long schoolId, PreviousSchoolRequest request) throws StudentNotFoundException, SchoolNotFoundException, StudentInactiveException {
 
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
 
@@ -76,7 +76,7 @@ public class PreviousSchoolServiceImpl implements PreviousSchoolService {
     }
 
     @Override
-    public void deleteById(Long studentId, Long schoolId) throws StudentNotFoundException, SchoolNotFoundException {
+    public void deleteById(Long studentId, Long schoolId) throws StudentNotFoundException, SchoolNotFoundException, StudentInactiveException {
 
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
         if (!Status.ACTIVE.equals(student.getStatus())) {

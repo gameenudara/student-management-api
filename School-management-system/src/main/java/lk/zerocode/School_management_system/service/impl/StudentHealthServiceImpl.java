@@ -1,7 +1,7 @@
 package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.HealthStatusRequest;
-import lk.zerocode.School_management_system.exception.SchoolNotFoundException;
+import lk.zerocode.School_management_system.exception.HealthStatusNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentInactiveException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.Status;
@@ -27,16 +27,18 @@ public class StudentHealthServiceImpl implements StudentHealthService {
     @Override
     public StudentHealth create(Long studentId, HealthStatusRequest request) throws StudentNotFoundException {
 
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
         StudentHealth studentHealth = modelMapper.map(request, StudentHealth.class);
         studentHealth.setStudent(student);
         return studentHealthRepository.save(studentHealth);
     }
 
     @Override
-    public List<StudentHealth> getAll(Long studentId) throws StudentNotFoundException {
+    public List<StudentHealth> getAll(Long studentId) throws StudentNotFoundException, StudentInactiveException, HealthStatusNotFoundException {
 
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
 
         if (!Status.ACTIVE.equals(student.getStatus())) {
             throw new StudentInactiveException("Student is Inactive " + studentId);
@@ -44,13 +46,13 @@ public class StudentHealthServiceImpl implements StudentHealthService {
         List<StudentHealth> studentHealths = studentHealthRepository.findByStudentId(studentId);
 
         if (studentHealths.isEmpty()) {
-            throw new StudentNotFoundException("No Heath status records found for Student ID: " + studentId);
+            throw new HealthStatusNotFoundException("No Health status records found for Student ID: " + studentId);
         }
         return studentHealths;
     }
 
     @Override
-    public StudentHealth getById(Long studentId, Long healthId) throws StudentNotFoundException, SchoolNotFoundException {
+    public StudentHealth getById(Long studentId, Long healthId) throws StudentNotFoundException, StudentInactiveException, HealthStatusNotFoundException {
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
@@ -59,11 +61,11 @@ public class StudentHealthServiceImpl implements StudentHealthService {
             throw new StudentInactiveException("Student is Inactive " + studentId);
         }
         return studentHealthRepository.findById(healthId)
-                .orElseThrow(() -> new SchoolNotFoundException("School is Not Found " + healthId));
+                .orElseThrow(() -> new HealthStatusNotFoundException("Health Status is Not Found " + healthId));
     }
 
     @Override
-    public StudentHealth updateById(Long studentId, Long healthId, HealthStatusRequest request) throws StudentNotFoundException, SchoolNotFoundException {
+    public StudentHealth updateById(Long studentId, Long healthId, HealthStatusRequest request) throws StudentNotFoundException, StudentInactiveException, HealthStatusNotFoundException {
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
@@ -71,21 +73,22 @@ public class StudentHealthServiceImpl implements StudentHealthService {
         if (!Status.ACTIVE.equals(student.getStatus())) {
             throw new StudentInactiveException("Student is Inactive " + studentId);
         }
-        StudentHealth existingHealth = studentHealthRepository.findById(healthId).orElseThrow(() -> new SchoolNotFoundException("School is Not Found " + healthId));
+        StudentHealth existingHealth = studentHealthRepository.findById(healthId)
+                .orElseThrow(() -> new HealthStatusNotFoundException("Health Status is Not Found " + healthId));
         modelMapper.map(request, existingHealth);
         return studentHealthRepository.save(existingHealth);
     }
 
     @Override
-    public void deleteById(Long studentId, Long healthId) throws StudentNotFoundException, SchoolNotFoundException {
+    public void deleteById(Long studentId, Long healthId) throws StudentNotFoundException,StudentInactiveException, HealthStatusNotFoundException {
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentNotFoundException("Student Not Found " + studentId));
         if (!Status.ACTIVE.equals(student.getStatus())) {
             throw new StudentInactiveException("Student is Inactive " + studentId);
         }
-        StudentHealth studentHealth = studentHealthRepository
-                .findById(healthId).orElseThrow(() -> new SchoolNotFoundException("School is Not Found " + healthId));
+        StudentHealth studentHealth = studentHealthRepository.findById(healthId)
+                .orElseThrow(() -> new HealthStatusNotFoundException("Health Status is Not Found " + healthId));
         studentHealthRepository.delete(studentHealth);
     }
 }

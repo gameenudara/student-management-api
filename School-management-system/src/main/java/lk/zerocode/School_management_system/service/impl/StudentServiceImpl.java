@@ -41,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentById(Long studentId) throws StudentNotFoundException {
+    public Student getStudentById(Long studentId) throws StudentNotFoundException, StudentInactiveException {
 
         Student student =studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentNotFoundException("Student not found for ID: " + studentId));
