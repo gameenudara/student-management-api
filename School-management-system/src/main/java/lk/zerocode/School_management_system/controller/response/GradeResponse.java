@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GradeResponse {
-    private String grade;
+    private String gradeNumber;
     private String gradeName;
     private Double classFee;
     private String teacherName;
+
 }

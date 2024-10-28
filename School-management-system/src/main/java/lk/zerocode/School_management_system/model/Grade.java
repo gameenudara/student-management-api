@@ -14,7 +14,7 @@ public class Grade extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String grade;
+    private String gradeNumber;
     private String gradeName;
     private Double classFee;
 
