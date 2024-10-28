@@ -2,6 +2,7 @@ package lk.zerocode.School_management_system.controller;
 
 import lk.zerocode.School_management_system.controller.request.GradeRequest;
 import lk.zerocode.School_management_system.controller.response.GradeResponse;
+import lk.zerocode.School_management_system.controller.response.GradeSummaryResponse;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
 import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
 import lk.zerocode.School_management_system.model.Grade;
@@ -54,6 +55,11 @@ public class GradeController {
         Grade grade = gradeService.updateById(gradeId,gradeRequest);
         GradeResponse gradeResponse = modelMapper.map(grade, GradeResponse.class);
         return new ResponseEntity<>(gradeResponse, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/grades-details", headers = "X-Api-Version=v1")
+    public ResponseEntity<List<GradeSummaryResponse>> getGradesDetails() {
+                return new ResponseEntity<>(gradeService.getGradeTeacherDetails(), HttpStatus.OK);
     }
 
 }

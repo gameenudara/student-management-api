@@ -1,12 +1,15 @@
 package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.GradeRequest;
+import lk.zerocode.School_management_system.controller.response.GradeSummaryResponse;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
+import lk.zerocode.School_management_system.model.Gender;
 import lk.zerocode.School_management_system.model.Grade;
 import lk.zerocode.School_management_system.model.Student;
 import lk.zerocode.School_management_system.model.Teacher;
+import lk.zerocode.School_management_system.projection.GradeSummaryProjection;
 import lk.zerocode.School_management_system.repository.GradeRepository;
 import lk.zerocode.School_management_system.repository.StudentRepository;
 import lk.zerocode.School_management_system.repository.TeacherRepository;
@@ -25,6 +28,7 @@ public class GradeServiceImpl implements GradeService {
     private final TeacherRepository teacherRepository;
     private final StudentRepository studentRepository;
     private final ModelMapper modelMapper;
+    private StudentRepository studentRepository;
 
     @Override
     public Grade creteGrade(Long id,GradeRequest gradeRequest) throws TeacherNotFoundException {
@@ -80,5 +84,16 @@ public class GradeServiceImpl implements GradeService {
 
     }
 
-
+    @Override
+    public List<GradeSummaryResponse> getGradeTeacherDetails() {
+        List<GradeSummaryProjection> projections = studentRepository.findGradeSummaries(Gender.FEMALE, Gender.MALE);
+        return projections.stream()
+                .map(projection-> new GradeSummaryResponse(
+                        projection.getGrade(),
+                        projection.getGradeName(),
+                        projection.getTeacherName(),
+                        projection.getFemaleCount(),
+                        projection.getMaleCount()))
+                .toList();
+    }
 }

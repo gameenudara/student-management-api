@@ -1,6 +1,7 @@
 package lk.zerocode.School_management_system.service;
 
 import lk.zerocode.School_management_system.controller.request.GradeRequest;
+import lk.zerocode.School_management_system.controller.response.GradeSummaryResponse;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
@@ -20,4 +21,6 @@ public interface GradeService {
 
     Grade updateById(Long gradeId, GradeRequest gradeRequest)throws GradeNotFoundException, TeacherNotFoundException;
 
+    List<GradeSummaryResponse> getGradeTeacherDetails();
+  
 }
