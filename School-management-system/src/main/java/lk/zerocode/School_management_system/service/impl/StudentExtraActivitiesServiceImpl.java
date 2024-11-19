@@ -1,0 +1,45 @@
+package lk.zerocode.School_management_system.service.impl;
+
+import lk.zerocode.School_management_system.controller.request.ExtraActivitiesRequest;
+import lk.zerocode.School_management_system.exception.GradeNotFoundException;
+import lk.zerocode.School_management_system.exception.StudentNotFoundException;
+import lk.zerocode.School_management_system.model.Grade;
+import lk.zerocode.School_management_system.model.Student;
+import lk.zerocode.School_management_system.model.StudentExtraActivity;
+import lk.zerocode.School_management_system.repository.GradeRepository;
+import lk.zerocode.School_management_system.repository.StudentExtraActivityRepository;
+import lk.zerocode.School_management_system.repository.StudentRepository;
+import lk.zerocode.School_management_system.service.StudentExtraActivitiesService;
+import lk.zerocode.School_management_system.service.StudentService;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class StudentExtraActivitiesServiceImpl implements StudentExtraActivitiesService {
+
+    private final StudentExtraActivityRepository studentExtraActivityRepository;
+    private final ModelMapper modelMapper;
+    private final StudentRepository studentRepository;
+    private final GradeRepository gradeRepository;
+
+    @Override
+    public StudentExtraActivity create(Long studentId, ExtraActivitiesRequest extraActivitiesRequest) throws StudentNotFoundException,GradeNotFoundException{
+
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new StudentNotFoundException("Student with id " + studentId + " not found")
+        );
+
+        Grade grade = gradeRepository.findById(extraActivitiesRequest.getGradeId()).orElseThrow(
+                () -> new GradeNotFoundException("Student with id " + extraActivitiesRequest.getGradeId() + " not found")
+        );
+
+        StudentExtraActivity studentExtraActivity = new StudentExtraActivity();
+        studentExtraActivity.setExtraActivity(extraActivitiesRequest.getExtraActivity());
+        studentExtraActivity.setStudent(student);
+        studentExtraActivity.setGrade(grade);
+        studentExtraActivityRepository.save(studentExtraActivity);
+        return modelMapper.map(studentExtraActivity, StudentExtraActivity.class);
+    }
+}
