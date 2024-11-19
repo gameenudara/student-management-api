@@ -22,4 +22,7 @@ public class StudentLeadership extends BaseEntity {
     @ManyToOne
     private Student student;
 
+    @ManyToOne
+    private Grade grade;
+
 }

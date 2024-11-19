@@ -22,4 +22,7 @@ public class StudentExtraActivity extends BaseEntity {
     @ManyToOne
     private Student student;
 
+    @ManyToOne
+    private Grade grade;
+
 }
