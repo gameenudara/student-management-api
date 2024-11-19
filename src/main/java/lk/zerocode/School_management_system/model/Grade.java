@@ -20,6 +20,4 @@ public class Grade extends BaseEntity {
 
     @ManyToOne
     private Teacher teacher;
-
-
 }
