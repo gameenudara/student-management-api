@@ -48,7 +48,18 @@ public class StudentLeadershipServiceImpl implements StudentLeadershipService {
 
     @Override
     public List<StudentLeadership> getAllByGradesWise(Long studentId, Long gradeId) throws StudentNotFoundException, GradeNotFoundException {
-        return List.of();
+
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new StudentNotFoundException("Student with id " + studentId + " not found")
+        );
+
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow(
+                () -> new GradeNotFoundException("Grade with id " + gradeId + " not found")
+        );
+
+        List<StudentLeadership> studentLeaderships = studentLeadershipRepository.findAllByStudentIdAndGradeId(studentId, gradeId);
+
+        return studentLeaderships;
     }
 
     @Override
