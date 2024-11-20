@@ -14,11 +14,11 @@ public interface TeacherService {
 
     List<Teacher> readAllTeachers();
 
-    Teacher getSpecificTeacherById(Long id) throws TeacherNotFoundException;
+    Teacher getSpecificTeacherById(Long teacherId) throws TeacherNotFoundException;
 
-    Teacher deleteTeacherById(Long id) throws TeacherNotFoundException;
+    Teacher deleteTeacherById(Long teacherId) throws TeacherNotFoundException;
 
-    Teacher updateSpecificTeacherById(Long id, TeacherRequest teacherControllerRequest) throws TeacherNotFoundException;
+    Teacher updateSpecificTeacherById(Long teacherId, TeacherRequest teacherControllerRequest) throws TeacherNotFoundException;
 
     List<Teacher> getAllTeachersWithGrades();
 }
