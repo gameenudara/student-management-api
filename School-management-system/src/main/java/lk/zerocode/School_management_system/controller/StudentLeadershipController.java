@@ -4,7 +4,9 @@ import lk.zerocode.School_management_system.controller.request.ExtraActivitiesRe
 import lk.zerocode.School_management_system.controller.request.LeadershipRequest;
 import lk.zerocode.School_management_system.controller.response.ExtraActivitiesResponse;
 import lk.zerocode.School_management_system.controller.response.LeadershipResponse;
+import lk.zerocode.School_management_system.exception.ExtraActivityNotFoundException;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
+import lk.zerocode.School_management_system.exception.LeadershipNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.StudentExtraActivity;
 import lk.zerocode.School_management_system.model.StudentLeadership;
@@ -38,10 +40,18 @@ public class StudentLeadershipController {
     @GetMapping(value = "/students/{student-id}/grades/{grade-id}/Leaderships",headers = "X-Api-Version=v1")
     public ResponseEntity<List<LeadershipResponse>> readAll(@PathVariable("student-id") Long studentId,
                                                                  @PathVariable("grade-id")Long gradeId)throws StudentNotFoundException,GradeNotFoundException{
+
         List<StudentLeadership> studentLeaderships = studentLeadershipService.getAllByGradesWise(studentId,gradeId);
         List<LeadershipResponse> leadershipResponses = studentLeaderships.stream()
                 .map(studentLeadership -> modelMapper.map(studentLeadership, LeadershipResponse.class))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(leadershipResponses, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/leaderships/{leadership-id}",headers = "X-Api-Version=v1")
+    public ResponseEntity<LeadershipResponse> deleteById(@PathVariable("leadership-id") Long leadershipId)throws LeadershipNotFoundException {
+
+        studentLeadershipService.deleteById(leadershipId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

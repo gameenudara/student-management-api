@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public interface GradeService {
 
-    Grade creteGrade(Long id,GradeRequest gradeRequest)throws TeacherNotFoundException;
+    Grade creteGrade(Long teacherId,GradeRequest gradeRequest)throws TeacherNotFoundException;
 
     List<Grade> readAllGrades();
 
-    Grade getGradeById(Long id) throws GradeNotFoundException;
+    Grade getGradeById(Long gradeId) throws GradeNotFoundException;
 
     Grade updateById(Long gradeId, GradeRequest gradeRequest)throws GradeNotFoundException, TeacherNotFoundException;
 

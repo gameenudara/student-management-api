@@ -1,6 +1,7 @@
 package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.LeadershipRequest;
+import lk.zerocode.School_management_system.exception.ExtraActivityNotFoundException;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
 import lk.zerocode.School_management_system.exception.LeadershipNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
@@ -64,6 +65,11 @@ public class StudentLeadershipServiceImpl implements StudentLeadershipService {
 
     @Override
     public StudentLeadership deleteById(Long leadershipId) throws LeadershipNotFoundException {
+
+        StudentLeadership leadership = studentLeadershipRepository.findById(leadershipId).orElseThrow(
+                () -> new LeadershipNotFoundException("Student with id " + leadershipId + " not found")
+        );
+        studentLeadershipRepository.delete(leadership);
         return null;
     }
 }

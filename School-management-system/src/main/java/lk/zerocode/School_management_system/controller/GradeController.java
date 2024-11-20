@@ -23,8 +23,8 @@ public class GradeController {
     private final GradeService gradeService;
     private final ModelMapper modelMapper;
 
-    @PostMapping(value = "/teachers/{id}/grades", headers = "X-Api-Version=v1")
-    public ResponseEntity<GradeResponse> createGrade(@PathVariable Long id, @RequestBody GradeRequest gradeRequest) throws TeacherNotFoundException {
+    @PostMapping(value = "/teachers/{teacher-id}/grades", headers = "X-Api-Version=v1")
+    public ResponseEntity<GradeResponse> createGrade(@PathVariable("teacher-id") Long id, @RequestBody GradeRequest gradeRequest) throws TeacherNotFoundException {
 
         Grade grade = gradeService.creteGrade(id, gradeRequest);
         GradeResponse gradeResponse = modelMapper.map(grade, GradeResponse.class);
@@ -40,8 +40,8 @@ public class GradeController {
         return new ResponseEntity<>(gradeResponseList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/grades/{id}", headers = "X-Api-Version=v1")
-    public ResponseEntity<GradeResponse> getGradesById(@PathVariable Long id) throws GradeNotFoundException {
+    @GetMapping(value = "/grades/{grade-id}", headers = "X-Api-Version=v1")
+    public ResponseEntity<GradeResponse> getGradesById(@PathVariable("grade-id") Long id) throws GradeNotFoundException {
 
         Grade grade = gradeService.getGradeById(id);
         GradeResponse gradeResponse = modelMapper.map(grade, GradeResponse.class);

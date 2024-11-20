@@ -36,8 +36,8 @@ import java.util.List;
         return new ResponseEntity<>(teacherControllerResponseList,HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}/teachers",headers = "X-Api-Version=v1")
-    public ResponseEntity<TeacherResponse> getTeacherById(@PathVariable("id") Long id) throws TeacherNotFoundException {
+    @GetMapping(value = "/{teacher-id}/teachers",headers = "X-Api-Version=v1")
+    public ResponseEntity<TeacherResponse> getTeacherById(@PathVariable("teacherId") Long id) throws TeacherNotFoundException {
         Teacher teacher = teacherService.getSpecificTeacherById(id);
         TeacherResponse teacherControllerResponse = modelMapper.map(teacher, TeacherResponse.class);
         return new ResponseEntity<>(teacherControllerResponse, HttpStatus.OK);
@@ -49,10 +49,10 @@ import java.util.List;
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping(value = "/{id}/teachers",headers = "X-Api-Version=v1")
+    @PutMapping(value = "/{teacher-id}/teachers",headers = "X-Api-Version=v1")
 
-    public ResponseEntity<TeacherResponse>updateById(@PathVariable("id") Long id, @RequestBody TeacherRequest teacherControllerRequest) throws TeacherNotFoundException {
-        Teacher teacher = teacherService.updateSpecificTeacherById(id,teacherControllerRequest);
+    public ResponseEntity<TeacherResponse>updateById(@PathVariable("teacherId") Long teacherId, @RequestBody TeacherRequest teacherControllerRequest) throws TeacherNotFoundException {
+        Teacher teacher = teacherService.updateSpecificTeacherById(teacherId,teacherControllerRequest);
         TeacherResponse teacherControllerResponse = modelMapper.map(teacher, TeacherResponse.class);
         return new ResponseEntity<>(teacherControllerResponse, HttpStatus.OK);
     }

@@ -28,9 +28,9 @@ public class GradeServiceImpl implements GradeService {
     private final ModelMapper modelMapper;
 
     @Override
-    public Grade creteGrade(Long id,GradeRequest gradeRequest) throws TeacherNotFoundException {
-        Teacher teacher = teacherRepository.findById(id).orElseThrow(
-                () -> new TeacherNotFoundException( id + ": Teacher not found")
+    public Grade creteGrade(Long teacherId,GradeRequest gradeRequest) throws TeacherNotFoundException {
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(
+                () -> new TeacherNotFoundException( teacherId + ": Teacher not found")
         );
 
         Grade grade = modelMapper.map(gradeRequest, Grade.class);
@@ -48,10 +48,10 @@ public class GradeServiceImpl implements GradeService {
 
 
     @Override
-    public Grade getGradeById(Long id) throws GradeNotFoundException {
+    public Grade getGradeById(Long gradeId) throws GradeNotFoundException {
 
-        Grade grade = gradeRepository.findById(id).orElseThrow(
-                () -> new GradeNotFoundException(id + ": Grade not found")
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow(
+                () -> new GradeNotFoundException(gradeId + ": Grade not found")
         );
 
         Teacher teacher = grade.getTeacher();
