@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-
 @Entity
 @Data
 @Table(name = "student_leaderships")
