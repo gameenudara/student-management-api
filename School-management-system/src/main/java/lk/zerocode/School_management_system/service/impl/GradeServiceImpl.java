@@ -26,7 +26,6 @@ public class GradeServiceImpl implements GradeService {
     private final TeacherRepository teacherRepository;
     private final StudentRepository studentRepository;
     private final ModelMapper modelMapper;
-    private StudentRepository studentRepository;
 
     @Override
     public Grade creteGrade(Long id,GradeRequest gradeRequest) throws TeacherNotFoundException {

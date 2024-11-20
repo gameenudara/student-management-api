@@ -50,6 +50,7 @@ import java.util.List;
     }
 
     @PutMapping(value = "/{id}/teachers",headers = "X-Api-Version=v1")
+
     public ResponseEntity<TeacherResponse>updateById(@PathVariable("id") Long id, @RequestBody TeacherRequest teacherControllerRequest) throws TeacherNotFoundException {
         Teacher teacher = teacherService.updateSpecificTeacherById(id,teacherControllerRequest);
         TeacherResponse teacherControllerResponse = modelMapper.map(teacher, TeacherResponse.class);
