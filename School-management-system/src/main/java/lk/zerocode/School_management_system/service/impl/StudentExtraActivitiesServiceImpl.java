@@ -1,6 +1,7 @@
 package lk.zerocode.School_management_system.service.impl;
 
 import lk.zerocode.School_management_system.controller.request.ExtraActivitiesRequest;
+import lk.zerocode.School_management_system.exception.ExtraActivityNotFoundException;
 import lk.zerocode.School_management_system.exception.GradeNotFoundException;
 import lk.zerocode.School_management_system.exception.StudentNotFoundException;
 import lk.zerocode.School_management_system.model.Grade;
@@ -10,10 +11,11 @@ import lk.zerocode.School_management_system.repository.GradeRepository;
 import lk.zerocode.School_management_system.repository.StudentExtraActivityRepository;
 import lk.zerocode.School_management_system.repository.StudentRepository;
 import lk.zerocode.School_management_system.service.StudentExtraActivitiesService;
-import lk.zerocode.School_management_system.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -41,5 +43,31 @@ public class StudentExtraActivitiesServiceImpl implements StudentExtraActivities
         studentExtraActivity.setGrade(grade);
         studentExtraActivityRepository.save(studentExtraActivity);
         return modelMapper.map(studentExtraActivity, StudentExtraActivity.class);
+    }
+
+    @Override
+    public List<StudentExtraActivity> getAllByGradesWise(Long studentId,Long gradeId) throws StudentNotFoundException, GradeNotFoundException {
+
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new StudentNotFoundException("Student with id " + studentId + " not found")
+        );
+
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow(
+                () -> new GradeNotFoundException("Grade with id " + gradeId + " not found")
+        );
+
+        List<StudentExtraActivity> studentExtraActivities = studentExtraActivityRepository.findAllByStudentIdAndGradeId(studentId,gradeId);
+
+        return studentExtraActivities;
+    }
+
+    @Override
+    public StudentExtraActivity deleteById(Long activityId) throws ExtraActivityNotFoundException {
+
+        StudentExtraActivity studentExtraActivity = studentExtraActivityRepository.findById(activityId).orElseThrow(
+                () -> new ExtraActivityNotFoundException("Student with id " + activityId + " not found")
+        );
+        studentExtraActivityRepository.delete(studentExtraActivity);
+        return null;
     }
 }
