@@ -18,17 +18,16 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/students")
 public class HealthStatusController {
 
     private StudentHealthService studentHealthService;
     private ModelMapper modelMapper;
 
-    @PostMapping(value = "/{student-id}/health-status", headers = "X-Api-Version=v1")
-    public ResponseEntity<HealthStatusResponse> create(@PathVariable("student-id") Long id,
-                                                                @RequestBody HealthStatusRequest request) {
+    @PostMapping(value = "/students/{student-id}/health-status", headers = "X-Api-Version=v1")
+    public ResponseEntity<HealthStatusResponse> create(@PathVariable("student-id") Long studentId,
+                                                       @RequestBody HealthStatusRequest healthStatusRequest) {
         try {
-            StudentHealth studentHealth = studentHealthService.create(id, request);
+            StudentHealth studentHealth = studentHealthService.create(studentId, healthStatusRequest);
             HealthStatusResponse statusResponse = modelMapper.map(studentHealth, HealthStatusResponse.class);
             return new ResponseEntity<>(statusResponse, HttpStatus.CREATED);
         } catch (StudentNotFoundException e) {
@@ -36,23 +35,22 @@ public class HealthStatusController {
         }
     }
 
-    @GetMapping(value = "/{student-id}/health-status", headers = "X-Api-Version=v1")
+    @GetMapping(value = "/students/{student-id}/health-status", headers = "X-Api-Version=v1")
     public ResponseEntity<List<HealthStatusResponse>> getAll(@PathVariable("student-id") Long studentId) {
 
         try {
             List<StudentHealth> studentHealths = studentHealthService.getAll(studentId);
-            List<HealthStatusResponse> healthStatusResponses = studentHealths
-                    .stream().map(studentHealth -> modelMapper
-                            .map(studentHealth, HealthStatusResponse.class)).toList();
+            List<HealthStatusResponse> healthStatusResponses = studentHealths.stream()
+                    .map(studentHealth -> modelMapper.map(studentHealth, HealthStatusResponse.class)).toList();
             return new ResponseEntity<>(healthStatusResponses, HttpStatus.OK);
         } catch ( StudentInactiveException | HealthStatusNotFoundException |StudentNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping(value = "/{student-id}/health-status/{health-id}", headers = "X-Api-Version=v1")
+    @GetMapping(value = "/students/{student-id}/health-status/{health-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<HealthStatusResponse> getById(@PathVariable("student-id") Long studentId,
-                                                                 @PathVariable("health-id") Long healthId) {
+                                                        @PathVariable("health-id") Long healthId) {
         try {
             StudentHealth studentHealth = studentHealthService.getById(studentId, healthId);
             HealthStatusResponse healthStatusResponse = modelMapper.map(studentHealth, HealthStatusResponse.class);
@@ -62,12 +60,12 @@ public class HealthStatusController {
         }
     }
 
-    @PutMapping(value = "/{student-id}/health-status/{health-id}", headers = "X-Api-Version=v1")
+    @PutMapping(value = "/students/{student-id}/health-status/{health-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<HealthStatusResponse> updateById(@PathVariable("student-id") Long studentId,
-                                                                    @PathVariable("health-id") Long healthId,
-                                                                    @RequestBody HealthStatusRequest request) throws StudentNotFoundException {
+                                                           @PathVariable("health-id") Long healthId,
+                                                           @RequestBody HealthStatusRequest healthStatusRequest) throws StudentNotFoundException {
         try {
-            StudentHealth heathStatus = studentHealthService.updateById(studentId, healthId, request);
+            StudentHealth heathStatus = studentHealthService.updateById(studentId, healthId, healthStatusRequest);
             HealthStatusResponse healthStatusResponse = modelMapper.map(heathStatus, HealthStatusResponse.class);
             return new ResponseEntity<>(healthStatusResponse, HttpStatus.OK);
         } catch (StudentInactiveException | HealthStatusNotFoundException e) {
@@ -75,7 +73,7 @@ public class HealthStatusController {
         }
     }
 
-    @DeleteMapping(value = "/{student-id}/health-status/{health-id}", headers = "X-Api-Version=v1")
+    @DeleteMapping(value = "/students/{student-id}/health-status/{health-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<StudentPreviousSchoolResponse> deleteById(@PathVariable("student-id") Long studentId,
                                                                     @PathVariable("health-id") Long healthId) {
         try {

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
 @AllArgsConstructor
 public class GradeController {
 
@@ -24,16 +23,15 @@ public class GradeController {
     private final ModelMapper modelMapper;
 
     @PostMapping(value = "/teachers/{teacher-id}/grades", headers = "X-Api-Version=v1")
-    public ResponseEntity<GradeResponse> createGrade(@PathVariable("teacher-id") Long id, @RequestBody GradeRequest gradeRequest) throws TeacherNotFoundException {
+    public ResponseEntity<GradeResponse> create(@PathVariable("teacher-id") Long teacherId, @RequestBody GradeRequest gradeRequest) throws TeacherNotFoundException {
 
-        Grade grade = gradeService.creteGrade(id, gradeRequest);
+        Grade grade = gradeService.creteGrade(teacherId, gradeRequest);
         GradeResponse gradeResponse = modelMapper.map(grade, GradeResponse.class);
         return new ResponseEntity<>(gradeResponse, HttpStatus.CREATED);
-
     }
 
     @GetMapping(value = "/grades", headers = "X-Api-Version=v1")
-    public ResponseEntity<List<GradeResponse>> getAllClassesWithTeachers() {
+    public ResponseEntity<List<GradeResponse>> getAll() {
 
         List<Grade> grades = gradeService.readAllGrades();
         List<GradeResponse> gradeResponseList = grades.stream().map(grade -> modelMapper.map(grade, GradeResponse.class)).toList();
@@ -41,25 +39,24 @@ public class GradeController {
     }
 
     @GetMapping(value = "/grades/{grade-id}", headers = "X-Api-Version=v1")
-    public ResponseEntity<GradeResponse> getGradesById(@PathVariable("grade-id") Long id) throws GradeNotFoundException {
+    public ResponseEntity<GradeResponse> getById(@PathVariable("grade-id") Long gradeId) throws GradeNotFoundException {
 
-        Grade grade = gradeService.getGradeById(id);
+        Grade grade = gradeService.getGradeById(gradeId);
         GradeResponse gradeResponse = modelMapper.map(grade, GradeResponse.class);
         return new ResponseEntity<>(gradeResponse, HttpStatus.OK);
     }
 
-
     @PutMapping(value = "/grades/{grade-id}", headers = "X-Api-Version=v1")
-    public ResponseEntity<GradeResponse> updateGrade(@PathVariable("grade-id") Long gradeId, @RequestBody GradeRequest gradeRequest) throws GradeNotFoundException, TeacherNotFoundException {
+    public ResponseEntity<GradeResponse> update(@PathVariable("grade-id") Long gradeId, @RequestBody GradeRequest gradeRequest) throws GradeNotFoundException, TeacherNotFoundException {
 
-        Grade grade = gradeService.updateById(gradeId,gradeRequest);
+        Grade grade = gradeService.updateById(gradeId, gradeRequest);
         GradeResponse gradeResponse = modelMapper.map(grade, GradeResponse.class);
         return new ResponseEntity<>(gradeResponse, HttpStatus.OK);
     }
 
     @GetMapping(value = "/grades-details", headers = "X-Api-Version=v1")
     public ResponseEntity<List<GradeSummaryResponse>> getGradesDetails() {
-                return new ResponseEntity<>(gradeService.getGradeTeacherDetails(), HttpStatus.OK);
+        return new ResponseEntity<>(gradeService.getGradeTeacherDetails(), HttpStatus.OK);
     }
 
 }

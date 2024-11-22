@@ -16,18 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
 @AllArgsConstructor
 public class StudentController {
 
     private StudentService studentService;
     private ModelMapper modelMapper;
 
-    @PostMapping(value = "", headers = "X-Api-Version=v1")
-    public ResponseEntity<?> create(@RequestBody StudentInformationRequest request) {
+    @PostMapping(value = "/students", headers = "X-Api-Version=v1")
+    public ResponseEntity<?> create(@RequestBody StudentInformationRequest studentInformationRequest) {
 
         try {
-            Student createdStudent = studentService.create(request);
+            Student createdStudent = studentService.create(studentInformationRequest);
             StudentInformationResponse response = modelMapper.map(createdStudent, StudentInformationResponse.class);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
 
@@ -40,7 +39,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping(value = "", headers = "X-Api-Version=v1")
+    @GetMapping(value = "/students", headers = "X-Api-Version=v1")
     public ResponseEntity<List<StudentInformationResponse>> getAll() {
         try {
             List<Student> studentList = studentService.getAllStudents();
@@ -53,7 +52,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping(value = "/{student-id}", headers = "X-Api-Version=v1")
+    @GetMapping(value = "/students/{student-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<StudentInformationResponse> getById(@PathVariable("student-id") Long studentId) {
         try {
             Student student = studentService.getStudentById(studentId);
@@ -64,12 +63,12 @@ public class StudentController {
         }
     }
 
-    @PutMapping(value = "/{student-id}", headers = "X-Api-Version=v1")
+    @PutMapping(value = "/students/{student-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<StudentInformationResponse> updateById(
-            @RequestBody StudentInformationRequest request,
+            @RequestBody StudentInformationRequest studentInformationRequest,
             @PathVariable("student-id") Long studentId) {
         try {
-            Student updatedStudent = studentService.updateById(request, studentId);
+            Student updatedStudent = studentService.updateById(studentInformationRequest, studentId);
             StudentInformationResponse response = modelMapper.map(updatedStudent, StudentInformationResponse.class);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (GradeNotFoundException | StudentNotFoundException e) {
@@ -77,21 +76,19 @@ public class StudentController {
         }
     }
   
-   @DeleteMapping(value = "/{student-id}", headers = "X-Api-Version=v1")
+   @DeleteMapping(value = "/students/{student-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<?> deleteById(@PathVariable("student-id") Long studentId) {
-       System.out.println(studentId);
         try {
             studentService.deleteById(studentId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (StudentNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping(value = "grades/students/{student-id}",headers = "X-Api-Version")
+    @GetMapping(value = "/students/grades/students/{student-id}",headers = "X-Api-Version")
     public ResponseEntity<StudentGradeDetailsResponse>getStudentWithGrades (@PathVariable ("student-id") Long studentId) throws StudentNotFoundException{
 
         StudentGradeDetailsResponse response = studentService.getStudentWithGrades(studentId);

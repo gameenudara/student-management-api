@@ -28,10 +28,8 @@ public class GradeServiceImpl implements GradeService {
     private final ModelMapper modelMapper;
 
     @Override
-    public Grade creteGrade(Long teacherId,GradeRequest gradeRequest) throws TeacherNotFoundException {
-        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(
-                () -> new TeacherNotFoundException( teacherId + ": Teacher not found")
-        );
+    public Grade creteGrade(Long teacherId, GradeRequest gradeRequest) throws TeacherNotFoundException {
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new TeacherNotFoundException(teacherId + ": Teacher not found"));
 
         Grade grade = modelMapper.map(gradeRequest, Grade.class);
         grade.setTeacher(teacher);
@@ -42,17 +40,14 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public List<Grade> readAllGrades() {
-        List<Grade> grades = gradeRepository.findAll();
-        return grades;
+        return gradeRepository.findAll();
     }
 
 
     @Override
     public Grade getGradeById(Long gradeId) throws GradeNotFoundException {
 
-        Grade grade = gradeRepository.findById(gradeId).orElseThrow(
-                () -> new GradeNotFoundException(gradeId + ": Grade not found")
-        );
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow(() -> new GradeNotFoundException(gradeId + ": Grade not found"));
 
         Teacher teacher = grade.getTeacher();
         Grade mappedGrade = modelMapper.map(grade, Grade.class);
@@ -62,11 +57,9 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Grade updateById(Long gradeId, GradeRequest gradeRequest) throws GradeNotFoundException{
+    public Grade updateById(Long gradeId, GradeRequest gradeRequest) throws GradeNotFoundException {
 
-        Grade grade = gradeRepository.findById(gradeId).orElseThrow(
-                () -> new GradeNotFoundException( gradeId + ": Grade not found")
-        );
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow(() -> new GradeNotFoundException(gradeId + ": Grade not found"));
 
         Teacher teacher = new Teacher();
         teacher.setId(gradeRequest.getTeacherId());
@@ -78,19 +71,11 @@ public class GradeServiceImpl implements GradeService {
         gradeRepository.save(mappedGrade);
 
         return mappedGrade;
-
     }
 
     @Override
     public List<GradeSummaryResponse> getGradeTeacherDetails() {
         List<GradeSummaryProjection> projections = studentRepository.findGradeSummaries(Gender.FEMALE, Gender.MALE);
-        return projections.stream()
-                .map(projection-> new GradeSummaryResponse(
-                        projection.getGrade(),
-                        projection.getGradeName(),
-                        projection.getTeacherName(),
-                        projection.getFemaleCount(),
-                        projection.getMaleCount()))
-                .toList();
+        return projections.stream().map(projection -> new GradeSummaryResponse(projection.getGrade(), projection.getGradeName(), projection.getTeacherName(), projection.getFemaleCount(), projection.getMaleCount())).toList();
     }
 }

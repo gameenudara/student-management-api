@@ -12,21 +12,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/students/{student-id}")
 @AllArgsConstructor
 public class StudentDocumentController {
 
     private StudentDocumentService studentDocumentService;
     private ModelMapper modelMapper;
 
-    @PostMapping(value = "/documnets",headers = "X-Api-Version=v1")
-    public List<StudentDocumentResponse> createDocument(
-            @RequestBody StudentDocumentRequest request,
-            @PathVariable("student-id") Long studentId) {
+    @PostMapping(value = "/students/{student-id}/documnets", headers = "X-Api-Version=v1")
+    public List<StudentDocumentResponse> createDocument(@RequestBody StudentDocumentRequest studentDocumentRequest, @PathVariable("student-id") Long studentId) {
 
-        List<StudentDocument> documents = studentDocumentService.createStudentDocument(request, studentId);
-        return documents.stream()
-                .map(document -> modelMapper.map(document, StudentDocumentResponse.class))
-                .collect(Collectors.toList());
+        List<StudentDocument> documents = studentDocumentService.createStudentDocument(studentDocumentRequest, studentId);
+        return documents.stream().map(document -> modelMapper.map(document, StudentDocumentResponse.class)).collect(Collectors.toList());
     }
 }
