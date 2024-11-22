@@ -19,5 +19,4 @@ public interface ParentService {
     Parent findById(Long parentId)throws ParentNotFoundException;
 
     void assignParentToStudent(Long studentId, ParentAssignRequest parentAssignRequest)throws ParentNotFoundException, StudentNotFoundException;
-
 }
