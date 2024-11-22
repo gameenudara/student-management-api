@@ -16,17 +16,17 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/students")
+
 public class PreviousSchoolController {
 
     private PreviousSchoolService previousSchoolService;
     private ModelMapper modelMapper;
 
-    @PostMapping(value = "/{student-id}/previous-schools", headers = "X-Api-Version=v1")
+    @PostMapping(value = "/students/{student-id}/previous-schools", headers = "X-Api-Version=v1")
     public ResponseEntity<StudentPreviousSchoolResponse> create(@PathVariable("student-id") Long studentId,
-                                                                @RequestBody PreviousSchoolRequest request) {
+                                                                @RequestBody PreviousSchoolRequest previousSchoolRequest) {
         try {
-            PreviousSchool studentPreviousSchool = previousSchoolService.create(studentId, request);
+            PreviousSchool studentPreviousSchool = previousSchoolService.create(studentId, previousSchoolRequest);
             StudentPreviousSchoolResponse studentPreviousSchoolResponse = modelMapper.map(studentPreviousSchool, StudentPreviousSchoolResponse.class);
             return new ResponseEntity<>(studentPreviousSchoolResponse, HttpStatus.CREATED);
         } catch (StudentNotFoundException e) {
@@ -34,11 +34,11 @@ public class PreviousSchoolController {
         }
     }
 
-    @GetMapping(value = "/{student-id}/previous-schools", headers = "X-Api-Version=v1")
-    public ResponseEntity<List<StudentPreviousSchoolResponse>> getAll(@PathVariable("student-id") Long id) {
-        System.out.println("Controller " + id);
+    @GetMapping(value = "/students/{student-id}/previous-schools", headers = "X-Api-Version=v1")
+    public ResponseEntity<List<StudentPreviousSchoolResponse>> getAll(@PathVariable("student-id") Long studentId) {
+
         try {
-            List<PreviousSchool> previousSchoolList = previousSchoolService.getAll(id);
+            List<PreviousSchool> previousSchoolList = previousSchoolService.getAll(studentId);
             List<StudentPreviousSchoolResponse> schoolResponses = previousSchoolList
                     .stream().map(studentPreviousSchool -> modelMapper
                             .map(studentPreviousSchool, StudentPreviousSchoolResponse.class)).toList();
@@ -48,7 +48,7 @@ public class PreviousSchoolController {
         }
     }
 
-    @GetMapping(value = "/{student-id}/previous-schools/{school-id}", headers = "X-Api-Version=v1")
+    @GetMapping(value = "/students/{student-id}/previous-schools/{school-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<StudentPreviousSchoolResponse> getById(@PathVariable("student-id") Long studentId,
                                                                  @PathVariable("school-id") Long schoolId) {
         try {
@@ -60,7 +60,7 @@ public class PreviousSchoolController {
         }
     }
 
-    @PutMapping(value = "/{student-id}/previous-schools/{school-id}", headers = "X-Api-Version=v1")
+    @PutMapping(value = "/students/{student-id}/previous-schools/{school-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<StudentPreviousSchoolResponse> updateById(@PathVariable("student-id") Long studentId,
                                                                     @PathVariable("school-id") Long schoolId,
                                                                     @RequestBody PreviousSchoolRequest request) throws StudentNotFoundException {
@@ -73,7 +73,7 @@ public class PreviousSchoolController {
         }
     }
 
-    @DeleteMapping(value = "/{student-id}/previous-schools/{school-id}", headers = "X-Api-Version=v1")
+    @DeleteMapping(value = "/students/{student-id}/previous-schools/{school-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<StudentPreviousSchoolResponse> deleteById(@PathVariable("student-id") Long studentId,
                                                                     @PathVariable("school-id") Long schoolId) {
         try {

@@ -23,19 +23,12 @@ public class StudentDocumentServiceImpl implements StudentDocumentService {
     @Override
     public List<StudentDocument> createStudentDocument(StudentDocumentRequest request, Long studentId) {
 
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new IllegalArgumentException("Student not found with ID: " + studentId));
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException("Student not found with ID: " + studentId));
 
-        StudentDocument birthCertificateDocument = buildStudentDocument(
-                request.getBirthCertificate(),
-                DocType.BIRTH_CERTIFICATE,
-                student
-        );
+        StudentDocument birthCertificateDocument = buildStudentDocument(request.getBirthCertificate(), DocType.BIRTH_CERTIFICATE, student);
         studentDocumentRepository.save(birthCertificateDocument);
 
-        List<StudentDocument> otherDocuments = request.getOtherDocuments().stream()
-                .map(docPath -> buildStudentDocument(docPath, DocType.OTHER_CERTIFICATE, student))
-                .collect(Collectors.toList());
+        List<StudentDocument> otherDocuments = request.getOtherDocuments().stream().map(docPath -> buildStudentDocument(docPath, DocType.OTHER_CERTIFICATE, student)).collect(Collectors.toList());
 
         studentDocumentRepository.saveAll(otherDocuments);
 

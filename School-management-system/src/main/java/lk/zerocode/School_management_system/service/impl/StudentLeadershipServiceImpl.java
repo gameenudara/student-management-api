@@ -31,13 +31,9 @@ public class StudentLeadershipServiceImpl implements StudentLeadershipService {
     @Override
     public StudentLeadership createStudentLeadership(Long studentId, LeadershipRequest leadershipRequest) throws StudentNotFoundException, GradeNotFoundException {
 
-        Student student = studentRepository.findById(studentId).orElseThrow(
-                () -> new StudentNotFoundException("Student with id " + studentId + " not found")
-        );
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student with id " + studentId + " not found"));
 
-        Grade grade = gradeRepository.findById(leadershipRequest.getGradeId()).orElseThrow(
-                () -> new GradeNotFoundException("Student with id " + leadershipRequest.getGradeId() + " not found")
-        );
+        Grade grade = gradeRepository.findById(leadershipRequest.getGradeId()).orElseThrow(() -> new GradeNotFoundException("Student with id " + leadershipRequest.getGradeId() + " not found"));
 
         StudentLeadership studentLeadership = new StudentLeadership();
         studentLeadership.setLeadership(leadershipRequest.getLeadership());
@@ -50,25 +46,17 @@ public class StudentLeadershipServiceImpl implements StudentLeadershipService {
     @Override
     public List<StudentLeadership> getAllByGradesWise(Long studentId, Long gradeId) throws StudentNotFoundException, GradeNotFoundException {
 
-        Student student = studentRepository.findById(studentId).orElseThrow(
-                () -> new StudentNotFoundException("Student with id " + studentId + " not found")
-        );
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student with id " + studentId + " not found"));
 
-        Grade grade = gradeRepository.findById(gradeId).orElseThrow(
-                () -> new GradeNotFoundException("Grade with id " + gradeId + " not found")
-        );
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow(() -> new GradeNotFoundException("Grade with id " + gradeId + " not found"));
 
-        List<StudentLeadership> studentLeaderships = studentLeadershipRepository.findAllByStudentIdAndGradeId(studentId, gradeId);
-
-        return studentLeaderships;
+        return studentLeadershipRepository.findAllByStudentIdAndGradeId(studentId, gradeId);
     }
 
     @Override
     public StudentLeadership deleteById(Long leadershipId) throws LeadershipNotFoundException {
 
-        StudentLeadership leadership = studentLeadershipRepository.findById(leadershipId).orElseThrow(
-                () -> new LeadershipNotFoundException("Student with id " + leadershipId + " not found")
-        );
+        StudentLeadership leadership = studentLeadershipRepository.findById(leadershipId).orElseThrow(() -> new LeadershipNotFoundException("Student with id " + leadershipId + " not found"));
         studentLeadershipRepository.delete(leadership);
         return null;
     }

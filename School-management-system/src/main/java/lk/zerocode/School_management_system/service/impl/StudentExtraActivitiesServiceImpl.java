@@ -27,15 +27,11 @@ public class StudentExtraActivitiesServiceImpl implements StudentExtraActivities
     private final GradeRepository gradeRepository;
 
     @Override
-    public StudentExtraActivity create(Long studentId, ExtraActivitiesRequest extraActivitiesRequest) throws StudentNotFoundException,GradeNotFoundException{
+    public StudentExtraActivity create(Long studentId, ExtraActivitiesRequest extraActivitiesRequest) throws StudentNotFoundException, GradeNotFoundException {
 
-        Student student = studentRepository.findById(studentId).orElseThrow(
-                () -> new StudentNotFoundException("Student with id " + studentId + " not found")
-        );
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student with id " + studentId + " not found"));
 
-        Grade grade = gradeRepository.findById(extraActivitiesRequest.getGradeId()).orElseThrow(
-                () -> new GradeNotFoundException("Student with id " + extraActivitiesRequest.getGradeId() + " not found")
-        );
+        Grade grade = gradeRepository.findById(extraActivitiesRequest.getGradeId()).orElseThrow(() -> new GradeNotFoundException("Student with id " + extraActivitiesRequest.getGradeId() + " not found"));
 
         StudentExtraActivity studentExtraActivity = new StudentExtraActivity();
         studentExtraActivity.setExtraActivity(extraActivitiesRequest.getExtraActivity());
@@ -46,27 +42,19 @@ public class StudentExtraActivitiesServiceImpl implements StudentExtraActivities
     }
 
     @Override
-    public List<StudentExtraActivity> getAllByGradesWise(Long studentId,Long gradeId) throws StudentNotFoundException, GradeNotFoundException {
+    public List<StudentExtraActivity> getAllByGradesWise(Long studentId, Long gradeId) throws StudentNotFoundException, GradeNotFoundException {
 
-        Student student = studentRepository.findById(studentId).orElseThrow(
-                () -> new StudentNotFoundException("Student with id " + studentId + " not found")
-        );
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student with id " + studentId + " not found"));
 
-        Grade grade = gradeRepository.findById(gradeId).orElseThrow(
-                () -> new GradeNotFoundException("Grade with id " + gradeId + " not found")
-        );
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow(() -> new GradeNotFoundException("Grade with id " + gradeId + " not found"));
 
-        List<StudentExtraActivity> studentExtraActivities = studentExtraActivityRepository.findAllByStudentIdAndGradeId(studentId,gradeId);
-
-        return studentExtraActivities;
+        return studentExtraActivityRepository.findAllByStudentIdAndGradeId(studentId, gradeId);
     }
 
     @Override
     public StudentExtraActivity deleteById(Long activityId) throws ExtraActivityNotFoundException {
 
-        StudentExtraActivity studentExtraActivity = studentExtraActivityRepository.findById(activityId).orElseThrow(
-                () -> new ExtraActivityNotFoundException("Student with id " + activityId + " not found")
-        );
+        StudentExtraActivity studentExtraActivity = studentExtraActivityRepository.findById(activityId).orElseThrow(() -> new ExtraActivityNotFoundException("Student with id " + activityId + " not found"));
         studentExtraActivityRepository.delete(studentExtraActivity);
         return null;
     }

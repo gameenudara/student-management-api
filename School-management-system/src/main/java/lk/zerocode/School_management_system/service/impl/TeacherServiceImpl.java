@@ -23,17 +23,13 @@ public class TeacherServiceImpl implements TeacherService {
 
     public Teacher createTeacher(TeacherRequest teacherControllerRequest) {
         Teacher teacher = modelMapper.map(teacherControllerRequest, Teacher.class);
-
         teacherRepository.save(teacher);
-
         return modelMapper.map(teacher, Teacher.class);
-
     }
 
     @Override
     public List<Teacher> readAllTeachers() {
-        List<Teacher> teachers = teacherRepository.findAll();
-        return teachers;
+        return teacherRepository.findAll();
     }
 
     @Override
@@ -45,7 +41,6 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher deleteTeacherById(Long teacherId) throws TeacherNotFoundException {
-
         Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new TeacherNotFoundException(teacherId + " teacher not found"));
         teacherRepository.delete(teacher);
         return null;
@@ -62,9 +57,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Teacher> getAllTeachersWithGrades() {
-
-        List<Teacher> teacherList = teacherRepository.findAll();
-        return teacherList;
+        return teacherRepository.findAll();
     }
 
 }
