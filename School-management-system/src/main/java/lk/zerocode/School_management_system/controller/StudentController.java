@@ -42,7 +42,7 @@ public class StudentController {
     @GetMapping(value = "/students", headers = "X-Api-Version=v1")
     public ResponseEntity<List<StudentInformationResponse>> getAll() {
         try {
-            List<Student> studentList = studentService.getAllStudents();
+            List<Student> studentList = studentService.getAll();
             List<StudentInformationResponse> studentInformationResponses = studentList
                     .stream().map(student -> modelMapper
                             .map(student, StudentInformationResponse.class)).toList();
@@ -55,7 +55,7 @@ public class StudentController {
     @GetMapping(value = "/students/{student-id}", headers = "X-Api-Version=v1")
     public ResponseEntity<StudentInformationResponse> getById(@PathVariable("student-id") Long studentId) {
         try {
-            Student student = studentService.getStudentById(studentId);
+            Student student = studentService.getById(studentId);
             StudentInformationResponse response = modelMapper.map(student, StudentInformationResponse.class);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (StudentNotFoundException e) {

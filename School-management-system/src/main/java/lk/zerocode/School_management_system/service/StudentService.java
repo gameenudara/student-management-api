@@ -15,9 +15,9 @@ public interface StudentService {
 
     Student create(StudentInformationRequest request) throws GradeNotFoundException;
 
-    List<Student> getAllStudents();
+    List<Student> getAll();
 
-    Student getStudentById(Long studentId) throws StudentNotFoundException, StudentInactiveException;
+    Student getById(Long studentId) throws StudentNotFoundException, StudentInactiveException;
 
     Student updateById(StudentInformationRequest request,Long studentId) throws StudentNotFoundException,GradeNotFoundException;
 
