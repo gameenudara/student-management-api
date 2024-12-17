@@ -8,6 +8,7 @@ import lk.zerocode.School_management_system.exception.TeacherNotFoundException;
 import lk.zerocode.School_management_system.model.Grade;
 import lk.zerocode.School_management_system.service.GradeService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class GradeController {
 
     private final GradeService gradeService;
