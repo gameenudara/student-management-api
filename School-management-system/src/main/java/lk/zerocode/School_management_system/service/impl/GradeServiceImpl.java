@@ -13,6 +13,7 @@ import lk.zerocode.School_management_system.repository.StudentRepository;
 import lk.zerocode.School_management_system.repository.TeacherRepository;
 import lk.zerocode.School_management_system.service.GradeService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class GradeServiceImpl implements GradeService {
 
     private final GradeRepository gradeRepository;
@@ -34,6 +36,8 @@ public class GradeServiceImpl implements GradeService {
         Grade grade = modelMapper.map(gradeRequest, Grade.class);
         grade.setTeacher(teacher);
         gradeRepository.save(grade);
+
+        log.info("Created grade {}", grade);
 
         return modelMapper.map(grade, Grade.class);
     }
